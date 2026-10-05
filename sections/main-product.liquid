@@ -103,3 +103,4 @@
     </div>
   </aside>
 </section>
+<div class="vf-mobile-atc"><span>{{ product.selected_or_first_available_variant.price | money_with_currency }}</span><button class="btn" type="button" data-mobile-atc {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>{% if product.selected_or_first_available_variant.available %}Add to bag →{% else %}Unavailable{% endif %}</button></div>
