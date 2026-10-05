@@ -1,0 +1,21 @@
+{% if product %}
+<section class="section">
+<div class="page-width faq">
+  <div><span class="eyebrow">{{ section.settings.eyebrow }}</span><h2 class="h2">{{ section.settings.heading }}</h2></div>
+  <div class="faq__items">
+  {% for block in section.blocks %}
+    <details {{ block.shopify_attributes }}><summary>{{ block.settings.question }}<span>+</span></summary><div class="faq__answer">{{ block.settings.answer }}</div></details>
+  {% endfor %}
+  </div>
+</div>
+</section>
+{% endif %}
+{% schema %}
+{"name":"Product FAQ","settings":[
+{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Questions, answered"},
+{"type":"text","id":"heading","label":"Heading","default":"Know before you order."}
+],"blocks":[{"type":"faq","name":"FAQ","settings":[
+{"type":"text","id":"question","label":"Question","default":"How do I choose the right fit?"},
+{"type":"richtext","id":"answer","label":"Answer","default":"<p>Use the VANTA FORM measurement guide before ordering. Fit guidance is available before and after purchase.</p>"}
+]}],"presets":[{"name":"Product FAQ","blocks":[{"type":"faq"},{"type":"faq"},{"type":"faq"},{"type":"faq"}]}]}
+{% endschema %}
