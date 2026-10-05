@@ -1,37 +1,21 @@
-<section class="section">
-  <div class="page-width split">
-    <div>
-      <div class="eyebrow">{{ section.settings.eyebrow }}</div>
-      <h2 class="h2">{{ section.settings.heading }}</h2>
+<section class="vf-manufacturing section">
+  <div class="page-width vf-manufacturing__grid">
+    <div class="vf-manufacturing__media">{% if section.settings.image != blank %}{{ section.settings.image | image_url: width: 1500 | image_tag: widths:'700,1000,1500', loading:'lazy', alt:section.settings.heading }}{% else %}<div class="vf-manufacturing__placeholder"><span>VANTA FORM / MANUFACTURING</span></div>{% endif %}</div>
+    <div class="vf-manufacturing__copy">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2 class="vf-editorial">{{ section.settings.heading }}</h2>
       <p class="lead">{{ section.settings.copy }}</p>
-      <div class="tech-list">
-        {% for block in section.blocks %}
-          <div {{ block.shopify_attributes }}><b>0{{ forloop.index }}</b><span>{{ block.settings.text }}</span></div>
-        {% endfor %}
-      </div>
-    </div>
-    <div class="split__visual">
-      {% if section.settings.image != blank %}
-        {{ section.settings.image | image_url: width: 1200 | image_tag: widths: '600,900,1200', loading: 'lazy', alt: section.settings.image.alt | default: section.settings.heading }}
-      {% else %}
-        <span class="eyebrow">Exploded engineering visual</span>
-      {% endif %}
+      <div class="vf-proof-list">{% for block in section.blocks %}<div {{ block.shopify_attributes }}><span>0{{ forloop.index }}</span><strong>{{ block.settings.heading }}</strong><p>{{ block.settings.text }}</p></div>{% endfor %}</div>
+      {% if section.settings.link != blank %}<a class="btn btn--ghost" href="{{ section.settings.link }}">Our manufacturing →</a>{% endif %}
     </div>
   </div>
 </section>
 {% schema %}
-{
-  "name":"Engineering story",
-  "settings":[
-    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Engineering"},
-    {"type":"text","id":"heading","label":"Heading","default":"Designed differently."},
-    {"type":"textarea","id":"copy","label":"Copy","default":"A modular architecture built around precision sizing, discreet hardware and additive manufacturing."},
-    {"type":"image_picker","id":"image","label":"Image"}
-  ],
-  "blocks":[
-    {"type":"point","name":"Point","settings":[{"type":"text","id":"text","label":"Text","default":"Precision additive manufacturing"}]}
-  ],
-  "max_blocks":5,
-  "presets":[{"name":"Engineering story","blocks":[{"type":"point"},{"type":"point"},{"type":"point"},{"type":"point"},{"type":"point"}]}]
-}
+{"name":"Manufacturing story","settings":[
+{"type":"text","id":"eyebrow","label":"Eyebrow","default":"We manufacture"},
+{"type":"text","id":"heading","label":"Heading","default":"A higher standard."},
+{"type":"textarea","id":"copy","label":"Copy","default":"VANTA FORM is being built as a manufacturer, not a reseller. We develop original product architecture, configure fit, manufacture our designs and control the product experience from concept through fulfillment."},
+{"type":"image_picker","id":"image","label":"Manufacturing image"},{"type":"url","id":"link","label":"Manufacturing page"}],
+"blocks":[{"type":"point","name":"Proof point","settings":[{"type":"text","id":"heading","label":"Heading","default":"Original design"},{"type":"textarea","id":"text","label":"Text","default":"Developed as VANTA FORM product architecture, not sourced as generic catalog merchandise."}]}],"max_blocks":5,
+"presets":[{"name":"Manufacturing story","blocks":[{"type":"point"},{"type":"point"},{"type":"point"}]}]}
 {% endschema %}
