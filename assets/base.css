@@ -1,0 +1,90 @@
+:root{
+  --bg:#08090b;
+  --bg-soft:#111318;
+  --surface:#15181e;
+  --surface-2:#1b1f27;
+  --text:#f5f7fa;
+  --muted:#a9b0bb;
+  --line:#2a3039;
+  --accent:#6ea9ff;
+  --accent-2:#d5b38a;
+  --danger:#ff6b6b;
+  --max:1440px;
+  --radius:0px;
+  --shadow:0 20px 60px rgba(0,0,0,.28);
+  --font-sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-sans);line-height:1.5}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+.skip-link{position:absolute;left:-9999px;top:auto}.skip-link:focus{left:16px;top:16px;z-index:999;background:white;color:black;padding:12px 16px}
+.page-width{width:min(calc(100% - 40px),var(--max));margin-inline:auto}
+.section{padding:88px 0;border-top:1px solid var(--line)}
+.eyebrow{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.display{font-size:clamp(3.2rem,8vw,8.6rem);line-height:.88;letter-spacing:-.055em;margin:0}
+.h1{font-size:clamp(2.6rem,5vw,5.4rem);line-height:.95;letter-spacing:-.04em}
+.h2{font-size:clamp(2rem,4vw,4rem);line-height:1;letter-spacing:-.035em}
+.lead{font-size:clamp(1.05rem,1.6vw,1.35rem);color:var(--muted);max-width:62ch}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border:1px solid var(--text);background:var(--text);color:var(--bg);font-weight:700;letter-spacing:.03em;text-transform:uppercase;font-size:.82rem}
+.btn--ghost{background:transparent;color:var(--text);border-color:var(--line)}
+.btn:hover{opacity:.9}
+.header-shell{position:sticky;top:0;z-index:50;background:rgba(8,9,11,.9);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.08)}
+.header{height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{font-size:1rem;letter-spacing:.28em;font-weight:800;white-space:nowrap}
+.nav{display:flex;align-items:center;gap:28px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:#d9dde3}
+.header-actions{display:flex;gap:16px;font-size:.78rem}
+.hero{min-height:78svh;display:grid;align-items:end;position:relative;overflow:hidden;background:radial-gradient(circle at 75% 35%,#1f2c42 0,transparent 35%),linear-gradient(135deg,#08090b 0,#0c1016 55%,#08090b 100%)}
+.hero__inner{padding:120px 0 80px;display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:end}
+.hero__copy{max-width:760px}
+.hero__actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+.hero__visual{min-height:540px;border:1px solid var(--line);background:linear-gradient(160deg,#181c23,#0a0c10);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero__visual:before{content:"";width:52%;aspect-ratio:1;border:1px solid rgba(110,169,255,.35);border-radius:50%;box-shadow:0 0 90px rgba(110,169,255,.12)}
+.hero__visual span{position:absolute;bottom:26px;left:26px;color:var(--muted);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase}
+.editorial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.editorial-card{background:var(--bg);min-height:420px;padding:34px;display:flex;flex-direction:column;justify-content:space-between}
+.editorial-card strong{font-size:1.8rem;letter-spacing:-.03em}
+.editorial-card p{color:var(--muted)}
+.split{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);min-height:560px}
+.split>div{padding:56px}
+.split__visual{background:linear-gradient(145deg,#171b22,#0e1116);display:flex;align-items:center;justify-content:center}
+.tech-list{display:grid;gap:0;border-top:1px solid var(--line);margin-top:30px}
+.tech-list div{display:grid;grid-template-columns:54px 1fr;padding:18px 0;border-bottom:1px solid var(--line);color:var(--muted)}
+.tech-list b{color:var(--text)}
+.footer{padding:64px 0 34px;border-top:1px solid var(--line);color:var(--muted)}
+.footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:48px}
+.footer h3{color:var(--text)}
+.footer ul{padding:0;margin:0;list-style:none;display:grid;gap:10px}
+.product-main{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(360px,.75fr);gap:48px;padding:48px 0 88px}
+.product-gallery{display:grid;gap:16px}
+.product-media{background:#f4f4f2;min-height:620px;display:flex;align-items:center;justify-content:center}
+.product-panel{position:sticky;top:100px;align-self:start}
+.product-title{font-size:clamp(2.6rem,5vw,4.7rem);line-height:.95;letter-spacing:-.045em;margin:12px 0 18px}
+.price{font-size:1.2rem;margin:16px 0 26px}
+.product-form{display:grid;gap:16px}
+.option{display:grid;gap:8px}
+.option select{width:100%;min-height:52px;background:var(--surface);color:var(--text);border:1px solid var(--line);padding:0 14px}
+.add-btn{width:100%;min-height:58px}
+.product-points{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:24px}
+.product-points div{background:var(--bg);padding:16px;font-size:.84rem;color:var(--muted)}
+.richtext{max-width:900px}.richtext h2{font-size:2.4rem}.richtext p{color:var(--muted);font-size:1.05rem}
+.collection-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.product-card{border:1px solid var(--line);background:var(--surface);padding:0}
+.product-card__media{aspect-ratio:1;background:#f1f1ef;overflow:hidden}
+.product-card__body{padding:18px}.product-card__title{font-weight:700}.product-card__meta{color:var(--muted);font-size:.9rem}
+@media(max-width:960px){
+  .nav{display:none}
+  .hero__inner,.split,.product-main{grid-template-columns:1fr}
+  .editorial-grid,.collection-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .hero__visual{min-height:420px}
+  .product-panel{position:static}
+}
+@media(max-width:640px){
+  .page-width{width:min(calc(100% - 24px),var(--max))}
+  .section{padding:60px 0}
+  .hero__inner{padding:86px 0 50px}
+  .footer-grid{grid-template-columns:1fr}
+}
