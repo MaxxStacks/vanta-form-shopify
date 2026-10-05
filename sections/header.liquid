@@ -1,24 +1,17 @@
 <header class="header-shell" data-vf-header>
 <div class="page-width header">
-<button class="vf-menu-toggle" type="button" aria-expanded="false" aria-controls="vf-mobile-nav"><span></span><span></span><span class="visually-hidden">Menu</span></button>
+<button class="vf-menu-toggle" type="button" aria-expanded="false" aria-controls="vf-mobile-nav"><span></span><span></span><span class="visually-hidden">Open menu</span></button>
 <a class="brand" href="{{ routes.root_url }}" aria-label="VANTA FORM home">VANTA FORM<small>Precision intimate engineering</small></a>
 <nav class="vf-desktop-nav" aria-label="Primary">
-<div class="vf-nav-shop"><button type="button" class="vf-nav-trigger" aria-expanded="false" aria-controls="vf-mega-shop">Shop</button>
-<div id="vf-mega-shop" class="vf-mega" hidden><div class="page-width vf-mega__grid">
-<div class="vf-mega__intro"><span class="eyebrow">Shop VANTA FORM</span><h2>Find your form.</h2><p>Explore by architecture, intent or expression.</p><a href="{{ routes.all_products_collection_url }}">Shop all →</a></div>
-<div><span class="vf-mega__label">Collections</span><a href="/collections/core">CORE</a><a href="/collections/air">AIR</a><a href="/collections/stealth">STEALTH</a><a href="/collections/arc">ARC</a><a href="/collections/hex">HEX</a><a href="/collections/void">VOID</a></div>
-<div><span class="vf-mega__label">Expression</span><a href="/collections/form">FORM</a><a href="/collections/petal">PETAL</a><a href="/collections/signature">SIGNATURE</a><a href="/collections/fufu">FUFU</a><a href="/pages/bespoke">Bespoke</a></div>
-<div><span class="vf-mega__label">Find yours</span><a href="/pages/fit-lab">Fit Lab</a><a href="/collections/all">All products</a><a href="/pages/first-cage">My first cage</a><a href="/pages/everyday-discreet">Everyday & discreet</a><a href="/pages/couples-keyholders">Couples & keyholders</a></div>
-</div></div></div>
-<a href="/pages/fit-lab">Build yours</a><a href="/pages/bespoke">Bespoke</a><a href="/pages/technology">Technology</a><a href="/blogs/journal">Journal</a>
-</nav>
-<div class="header-actions"><a href="{{ routes.search_url }}" aria-label="Search">Search</a><a href="{{ routes.account_url }}" aria-label="Account">Account</a><a href="{{ routes.cart_url }}">Bag <span data-cart-count>{{ cart.item_count }}</span></a></div>
-</div>
+<div class="vf-nav-shop"><button type="button" class="vf-nav-trigger" aria-expanded="false" aria-controls="vf-mega-shop">Shop</button><div id="vf-mega-shop" class="vf-mega" hidden><div class="page-width vf-mega__grid"><div class="vf-mega__intro"><span class="eyebrow">Shop VANTA FORM</span><h2>Find your form.</h2><p>Explore original VANTA FORM architecture by profile, purpose and expression.</p><a href="{{ routes.all_products_collection_url }}">Shop all →</a></div><div><span class="vf-mega__label">Architecture</span><a href="/collections/core">CORE</a><a href="/collections/air">AIR</a><a href="/collections/stealth">STEALTH</a><a href="/collections/arc">ARC</a><a href="/collections/hex">HEX</a><a href="/collections/void">VOID</a></div><div><span class="vf-mega__label">Expression</span><a href="/collections/form">FORM</a><a href="/collections/petal">PETAL</a><a href="/collections/fufu">FUFU</a><a href="/collections/signature">SIGNATURE</a><a href="/pages/bespoke">Bespoke</a></div><div><span class="vf-mega__label">Start here</span><a href="/pages/fit-lab">Fit Lab</a><a href="/pages/first-cage">My first cage</a><a href="/pages/everyday-discreet">Everyday & discreet</a><a href="/pages/couples-keyholders">Couples & keyholders</a><a href="/pages/manufacturing">How we manufacture</a></div></div></div></div>
+<a href="/pages/fit-lab">Build yours</a><a href="/pages/bespoke">Bespoke</a><a href="/pages/technology">Technology</a><a href="/blogs/journal">Journal</a></nav>
+<div class="header-actions"><a href="{{ routes.search_url }}">Search</a><a class="vf-account-link" href="{{ routes.account_url }}">Account</a><a href="{{ routes.cart_url }}">Bag <span data-cart-count>{{ cart.item_count }}</span></a></div></div>
 <div id="vf-mobile-nav" class="vf-mobile-nav" hidden>
-<div class="vf-mobile-nav__top"><span>Menu</span><button type="button" data-vf-menu-close aria-label="Close menu">×</button></div>
-<details open><summary>Shop <span>+</span></summary><div class="vf-mobile-nav__sub"><a href="/collections/core">CORE</a><a href="/collections/stealth">STEALTH</a><a href="/collections/petal">PETAL</a><a href="/collections/fufu">FUFU</a><a href="/collections/signature">SIGNATURE</a><a href="{{ routes.all_products_collection_url }}">View all</a></div></details>
-<a class="vf-mobile-nav__primary" href="/pages/fit-lab">Build yours</a><a class="vf-mobile-nav__primary" href="/pages/bespoke">Bespoke</a><a class="vf-mobile-nav__primary" href="/pages/technology">Technology</a><a class="vf-mobile-nav__primary" href="/blogs/journal">Journal</a>
-<div class="vf-mobile-nav__utility"><a href="{{ routes.search_url }}">Search</a><a href="{{ routes.account_url }}">Account</a><a href="/pages/contact">Support</a></div>
+<div class="vf-mobile-nav__top"><span>VANTA FORM / MENU</span><button type="button" data-vf-menu-close aria-label="Close menu">×</button></div>
+<div class="vf-mobile-nav__body">
+<section class="vf-mobile-nav__section"><span class="vf-mobile-nav__label">Shop</span><div class="vf-mobile-nav__collections"><a href="/collections/core">CORE</a><a href="/collections/stealth">STEALTH</a><a href="/collections/air">AIR</a><a href="/collections/petal">PETAL</a><a href="/collections/fufu">FUFU</a><a href="/collections/signature">SIGNATURE</a><a href="{{ routes.all_products_collection_url }}">ALL PRODUCTS</a></div></section>
+<section class="vf-mobile-nav__section vf-mobile-nav__main"><a href="/pages/fit-lab">Build yours <span>→</span></a><a href="/pages/bespoke">Bespoke <span>→</span></a><a href="/pages/technology">Technology <span>→</span></a><a href="/blogs/journal">Journal <span>→</span></a></section>
+<section class="vf-mobile-nav__section"><span class="vf-mobile-nav__label">Find your form</span><a class="vf-mobile-nav__small" href="/pages/first-cage">My first cage</a><a class="vf-mobile-nav__small" href="/pages/everyday-discreet">Everyday & discreet</a><a class="vf-mobile-nav__small" href="/pages/couples-keyholders">Couples & keyholders</a></section>
 </div>
-</header>
+<div class="vf-mobile-nav__footer"><a href="{{ routes.search_url }}">Search</a><a href="{{ routes.account_url }}">Account</a><a href="/pages/contact">Contact</a></div></div></header>
 {% schema %}{"name":"Header","settings":[]}{% endschema %}
