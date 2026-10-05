@@ -1,0 +1,24 @@
+{% if product %}
+<section class="section product-story">
+<div class="page-width">
+  <div class="product-story__intro">
+    <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+    <h2 class="h2">{{ product.metafields.custom.story_heading | default: section.settings.heading }}</h2>
+    <p class="lead">{{ product.metafields.custom.story_copy | default: section.settings.copy }}</p>
+  </div>
+  <div class="spec-grid">
+    <div><span>Architecture</span><strong>{{ product.metafields.custom.architecture | default: 'VANTA modular' }}</strong></div>
+    <div><span>Profile</span><strong>{{ product.metafields.custom.profile | default: 'Defined per model' }}</strong></div>
+    <div><span>Material</span><strong>{{ product.metafields.custom.material | default: 'See configuration' }}</strong></div>
+    <div><span>Manufacturing</span><strong>{{ product.metafields.custom.manufacturing | default: 'Precision additive' }}</strong></div>
+  </div>
+</div>
+</section>
+{% endif %}
+{% schema %}
+{"name":"Product engineering story","settings":[
+{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Why this model exists"},
+{"type":"text","id":"heading","label":"Fallback heading","default":"Designed with intent."},
+{"type":"textarea","id":"copy","label":"Fallback copy","default":"Every VANTA FORM model starts with a defined use case, not a cosmetic variation."}
+],"presets":[{"name":"Product engineering story"}]}
+{% endschema %}
