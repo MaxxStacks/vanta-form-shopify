@@ -1,0 +1,13 @@
+{% unless request.page_type == 'index' %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+<a href="{{ routes.root_url }}">Home</a><span>/</span>
+{% if request.page_type == 'product' %}
+  {% if collection %}<a href="{{ collection.url }}">{{ collection.title }}</a><span>/</span>{% endif %}
+  <span aria-current="page">{{ product.title }}</span>
+{% elsif request.page_type == 'collection' %}
+  <span aria-current="page">{{ collection.title }}</span>
+{% elsif request.page_type == 'page' %}
+  <span aria-current="page">{{ page.title }}</span>
+{% endif %}
+</nav>
+{% endunless %}
