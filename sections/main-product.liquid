@@ -2,7 +2,7 @@
 <section class="page-width product-main" data-product-root>
   <div class="product-gallery" aria-label="{{ product.title }} media">
     {% for media in product.media %}
-      <div class="product-media">
+      <div class="product-media" data-media-id="{{ media.id }}">
         {% if media.media_type == 'image' %}
           {% if forloop.first %}
             {{ media | image_url: width: 1800 | image_tag: widths: '600,900,1200,1600,1800', sizes: '(min-width: 960px) 60vw, 100vw', loading: 'eager', fetchpriority: 'high', alt: media.alt | default: product.title }}
@@ -31,20 +31,22 @@
 
     <div class="price-row">
       <div class="price" data-price>{{ product.selected_or_first_available_variant.price | money_with_currency }}</div>
-      {% if product.compare_at_price_max > product.price %}<span class="compare-price">{{ product.compare_at_price_max | money }}</span>{% endif %}
+      <span class="compare-price{% unless product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %} visually-hidden{% endunless %}" data-compare-price>
+        {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}{{ product.selected_or_first_available_variant.compare_at_price | money_with_currency }}{% endif %}
+      </span>
     </div>
 
     <div class="fit-callout">
       <span class="fit-callout__mark">VF</span>
       <div><strong>Fit before checkout.</strong><span>Use our measurement system to configure with confidence.</span></div>
-      <a href="/pages/fit-guide">Fit guide →</a>
+      <a href="{{ routes.root_url }}pages/fit-guide" data-vf-event="fit_guide_open">Fit guide →</a>
     </div>
 
     {% form 'product', product, class: 'product-form', data-product-form: '' %}
       {% unless product.has_only_default_variant %}
         {% for option in product.options_with_values %}
-          <fieldset class="option-group">
-            <legend><span>{{ option.name }}</span><small>{{ option.selected_value }}</small></legend>
+          <fieldset class="option-group" data-option-index="{{ forloop.index0 }}">
+            <legend><span>{{ option.name }}</span><small data-option-value>{{ option.selected_value }}</small></legend>
             <div class="option-values">
               {% for value in option.values %}
                 <label class="option-pill">
@@ -59,15 +61,33 @@
 
       <select class="visually-hidden" name="id" data-variant-id aria-label="Variant">
         {% for variant in product.variants %}
-          <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title }}</option>
+          <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>{{ variant.title }}</option>
         {% endfor %}
       </select>
 
-      <button class="btn add-btn" type="submit" {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
-        <span>{% if product.selected_or_first_available_variant.available %}Add to bag{% else %}Unavailable{% endif %}</span>
-        {% if product.selected_or_first_available_variant.available %}<span>{{ product.selected_or_first_available_variant.price | money }}</span>{% endif %}
+      <button class="btn add-btn" type="submit" data-add-to-cart {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+        <span data-add-label>{% if product.selected_or_first_available_variant.available %}Add to bag{% else %}Unavailable{% endif %}</span>
+        <span data-add-price>{% if product.selected_or_first_available_variant.available %}{{ product.selected_or_first_available_variant.price | money }}{% endif %}</span>
       </button>
     {% endform %}
+
+    <script type="application/json" data-product-variants>
+      [
+        {% for variant in product.variants %}
+          {
+            "id": {{ variant.id | json }},
+            "available": {{ variant.available | json }},
+            "options": {{ variant.options | json }},
+            "price": {{ variant.price | json }},
+            "priceFormatted": {{ variant.price | money_with_currency | json }},
+            "priceButton": {{ variant.price | money | json }},
+            "compareAtPrice": {{ variant.compare_at_price | default: 0 | json }},
+            "compareAtPriceFormatted": {{ variant.compare_at_price | money_with_currency | json }},
+            "featuredMediaId": {{ variant.featured_media.id | default: 0 | json }}
+          }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    </script>
 
     <div class="product-assurances">
       <div><strong>Discreet</strong><span>Plain outer packaging</span></div>
