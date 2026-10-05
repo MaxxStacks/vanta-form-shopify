@@ -1,0 +1,4 @@
+[
+{"name":"theme_info","theme_name":"VANTA FORM","theme_version":"0.1.0","theme_author":"Maxx Stacks","theme_documentation_url":"https://github.com/MaxxStacks/vanta-form-shopify"},
+{"name":"Brand","settings":[{"type":"image_picker","id":"logo","label":"Logo"},{"type":"image_picker","id":"favicon","label":"Favicon"}]}
+]
