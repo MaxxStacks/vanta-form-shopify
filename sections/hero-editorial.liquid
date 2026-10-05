@@ -1,0 +1,40 @@
+<section class="hero">
+  <div class="page-width hero__inner">
+    <div class="hero__copy">
+      <div class="eyebrow">{{ section.settings.eyebrow }}</div>
+      <h1 class="display">{{ section.settings.heading }}</h1>
+      <p class="lead">{{ section.settings.copy }}</p>
+      <div class="hero__actions">
+        {% if section.settings.primary_label != blank %}
+          <a class="btn" href="{{ section.settings.primary_link }}">{{ section.settings.primary_label }}</a>
+        {% endif %}
+        {% if section.settings.secondary_label != blank %}
+          <a class="btn btn--ghost" href="{{ section.settings.secondary_link }}">{{ section.settings.secondary_label }}</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="hero__visual">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 1200 | image_tag: widths: '600,900,1200', sizes: '(min-width: 960px) 45vw, 100vw', loading: 'eager', fetchpriority: 'high', alt: section.settings.image.alt | default: section.settings.heading }}
+      {% else %}
+        <span>Flagship product visual</span>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Editorial hero",
+  "settings":[
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Precision intimate engineering"},
+    {"type":"textarea","id":"heading","label":"Heading","default":"ENGINEERED\nFOR YOU."},
+    {"type":"textarea","id":"copy","label":"Copy","default":"Premium 3D-manufactured intimate wear. Custom fit. Exceptional design. Uncompromising quality."},
+    {"type":"image_picker","id":"image","label":"Hero image"},
+    {"type":"text","id":"primary_label","label":"Primary button","default":"Shop collections"},
+    {"type":"url","id":"primary_link","label":"Primary link"},
+    {"type":"text","id":"secondary_label","label":"Secondary button","default":"Build yours"},
+    {"type":"url","id":"secondary_link","label":"Secondary link"}
+  ],
+  "presets":[{"name":"Editorial hero"}]
+}
+{% endschema %}
