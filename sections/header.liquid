@@ -1,13 +1,24 @@
-<header class="header-shell">
-  <div class="page-width header">
-    <button class="vf-menu-toggle" type="button" aria-expanded="false" aria-controls="vf-mobile-nav"><span></span><span></span><span class="visually-hidden">Menu</span></button>
-    <a class="brand" href="{{ routes.root_url }}" aria-label="VANTA FORM home">VANTA FORM<small>Precision intimate engineering</small></a>
-    <nav class="nav" aria-label="Primary">{% for link in section.settings.menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}</nav>
-    <div class="header-actions"><a href="{{ routes.search_url }}">Search</a><a href="{{ routes.account_url }}">Account</a><a href="{{ routes.cart_url }}">Bag <span data-cart-count>{{ cart.item_count }}</span></a></div>
-  </div>
-  <nav id="vf-mobile-nav" class="vf-mobile-nav" aria-label="Mobile" hidden>
-    {% for link in section.settings.menu.links %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}
-    <a href="/pages/fit-lab">Fit Lab</a><a href="{{ routes.search_url }}">Search</a><a href="{{ routes.account_url }}">Account</a>
-  </nav>
+<header class="header-shell" data-vf-header>
+<div class="page-width header">
+<button class="vf-menu-toggle" type="button" aria-expanded="false" aria-controls="vf-mobile-nav"><span></span><span></span><span class="visually-hidden">Menu</span></button>
+<a class="brand" href="{{ routes.root_url }}" aria-label="VANTA FORM home">VANTA FORM<small>Precision intimate engineering</small></a>
+<nav class="vf-desktop-nav" aria-label="Primary">
+<div class="vf-nav-shop"><button type="button" class="vf-nav-trigger" aria-expanded="false" aria-controls="vf-mega-shop">Shop</button>
+<div id="vf-mega-shop" class="vf-mega" hidden><div class="page-width vf-mega__grid">
+<div class="vf-mega__intro"><span class="eyebrow">Shop VANTA FORM</span><h2>Find your form.</h2><p>Explore by architecture, intent or expression.</p><a href="{{ routes.all_products_collection_url }}">Shop all →</a></div>
+<div><span class="vf-mega__label">Collections</span><a href="/collections/core">CORE</a><a href="/collections/air">AIR</a><a href="/collections/stealth">STEALTH</a><a href="/collections/arc">ARC</a><a href="/collections/hex">HEX</a><a href="/collections/void">VOID</a></div>
+<div><span class="vf-mega__label">Expression</span><a href="/collections/form">FORM</a><a href="/collections/petal">PETAL</a><a href="/collections/signature">SIGNATURE</a><a href="/collections/fufu">FUFU</a><a href="/pages/bespoke">Bespoke</a></div>
+<div><span class="vf-mega__label">Find yours</span><a href="/pages/fit-lab">Fit Lab</a><a href="/collections/all">All products</a><a href="/pages/first-cage">My first cage</a><a href="/pages/everyday-discreet">Everyday & discreet</a><a href="/pages/couples-keyholders">Couples & keyholders</a></div>
+</div></div></div>
+<a href="/pages/fit-lab">Build yours</a><a href="/pages/bespoke">Bespoke</a><a href="/pages/technology">Technology</a><a href="/blogs/journal">Journal</a>
+</nav>
+<div class="header-actions"><a href="{{ routes.search_url }}" aria-label="Search">Search</a><a href="{{ routes.account_url }}" aria-label="Account">Account</a><a href="{{ routes.cart_url }}">Bag <span data-cart-count>{{ cart.item_count }}</span></a></div>
+</div>
+<div id="vf-mobile-nav" class="vf-mobile-nav" hidden>
+<div class="vf-mobile-nav__top"><span>Menu</span><button type="button" data-vf-menu-close aria-label="Close menu">×</button></div>
+<details open><summary>Shop <span>+</span></summary><div class="vf-mobile-nav__sub"><a href="/collections/core">CORE</a><a href="/collections/stealth">STEALTH</a><a href="/collections/petal">PETAL</a><a href="/collections/fufu">FUFU</a><a href="/collections/signature">SIGNATURE</a><a href="{{ routes.all_products_collection_url }}">View all</a></div></details>
+<a class="vf-mobile-nav__primary" href="/pages/fit-lab">Build yours</a><a class="vf-mobile-nav__primary" href="/pages/bespoke">Bespoke</a><a class="vf-mobile-nav__primary" href="/pages/technology">Technology</a><a class="vf-mobile-nav__primary" href="/blogs/journal">Journal</a>
+<div class="vf-mobile-nav__utility"><a href="{{ routes.search_url }}">Search</a><a href="{{ routes.account_url }}">Account</a><a href="/pages/contact">Support</a></div>
+</div>
 </header>
-{% schema %}{"name":"Header","settings":[{"type":"link_list","id":"menu","label":"Menu","default":"main-menu"}]}{% endschema %}
+{% schema %}{"name":"Header","settings":[]}{% endschema %}
