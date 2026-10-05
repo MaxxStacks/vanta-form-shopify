@@ -75,3 +75,14 @@ document.addEventListener('click', (event) => {
   const tracked = event.target.closest('[data-vf-event]');
   if (tracked) emitVF(tracked.dataset.vfEvent);
 });
+const vfMenuButton = document.querySelector('.vf-menu-toggle');
+const vfMobileNav = document.querySelector('#vf-mobile-nav');
+if (vfMenuButton && vfMobileNav) {
+  vfMenuButton.addEventListener('click', () => {
+    const open = vfMenuButton.getAttribute('aria-expanded') === 'true';
+    vfMenuButton.setAttribute('aria-expanded', String(!open));
+    vfMobileNav.hidden = open;
+    document.documentElement.classList.toggle('vf-menu-open', !open);
+    emitVF('mobile_menu', { open: !open });
+  });
+}
