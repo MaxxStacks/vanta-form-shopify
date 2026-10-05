@@ -1,40 +1,28 @@
-<section class="hero">
-  <div class="page-width hero__inner">
-    <div class="hero__copy">
+<section class="vf-hero">
+  {% if section.settings.image != blank %}
+    <div class="vf-hero__media">{{ section.settings.image | image_url: width: 2200 | image_tag: widths: '750,1100,1600,2200', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: section.settings.image.alt | default: section.settings.heading }}</div>
+  {% endif %}
+  <div class="vf-hero__veil"></div>
+  <div class="page-width vf-hero__content">
+    <div class="vf-hero__copy">
       <div class="eyebrow">{{ section.settings.eyebrow }}</div>
-      <h1 class="display">{{ section.settings.heading }}</h1>
-      <p class="lead">{{ section.settings.copy }}</p>
-      <div class="hero__actions">
-        {% if section.settings.primary_label != blank %}
-          <a class="btn" href="{{ section.settings.primary_link }}">{{ section.settings.primary_label }}</a>
-        {% endif %}
-        {% if section.settings.secondary_label != blank %}
-          <a class="btn btn--ghost" href="{{ section.settings.secondary_link }}">{{ section.settings.secondary_label }}</a>
-        {% endif %}
+      <h1 class="vf-display">{{ section.settings.heading | newline_to_br }}</h1>
+      <p class="vf-hero__lead">{{ section.settings.copy }}</p>
+      <div class="vf-actions">
+        <a class="btn" href="{{ section.settings.primary_link | default: routes.all_products_collection_url }}">{{ section.settings.primary_label }} <span aria-hidden="true">→</span></a>
+        <a class="btn btn--ghost" href="{{ section.settings.secondary_link | default: '/pages/fit-lab' }}">{{ section.settings.secondary_label }} <span aria-hidden="true">→</span></a>
       </div>
-    </div>
-    <div class="hero__visual">
-      {% if section.settings.image != blank %}
-        {{ section.settings.image | image_url: width: 1200 | image_tag: widths: '600,900,1200', sizes: '(min-width: 960px) 45vw, 100vw', loading: 'eager', fetchpriority: 'high', alt: section.settings.image.alt | default: section.settings.heading }}
-      {% else %}
-        <span>Flagship product visual</span>
-      {% endif %}
+      <div class="vf-hero__motives" aria-label="Designed for"><span>Discretion</span><span>Control</span><span>Transformation</span><span>Expression</span></div>
     </div>
   </div>
 </section>
 {% schema %}
-{
-  "name":"Editorial hero",
-  "settings":[
-    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Precision intimate engineering"},
-    {"type":"textarea","id":"heading","label":"Heading","default":"ENGINEERED\nFOR YOU."},
-    {"type":"textarea","id":"copy","label":"Copy","default":"Premium 3D-manufactured intimate wear. Custom fit. Exceptional design. Uncompromising quality."},
-    {"type":"image_picker","id":"image","label":"Hero image"},
-    {"type":"text","id":"primary_label","label":"Primary button","default":"Shop collections"},
-    {"type":"url","id":"primary_link","label":"Primary link"},
-    {"type":"text","id":"secondary_label","label":"Secondary button","default":"Build yours"},
-    {"type":"url","id":"secondary_link","label":"Secondary link"}
-  ],
-  "presets":[{"name":"Editorial hero"}]
-}
+{"name":"VANTA hero","settings":[
+{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Precision · Expression · Freedom"},
+{"type":"textarea","id":"heading","label":"Heading","default":"YOUR BODY.\nYOUR FORM."},
+{"type":"textarea","id":"copy","label":"Copy","default":"Precision-manufactured intimate wear created for control, discretion, transformation and expression."},
+{"type":"image_picker","id":"image","label":"Hero image"},
+{"type":"text","id":"primary_label","label":"Primary button","default":"Find yours"},{"type":"url","id":"primary_link","label":"Primary link"},
+{"type":"text","id":"secondary_label","label":"Secondary button","default":"Build yours"},{"type":"url","id":"secondary_link","label":"Secondary link"}
+],"presets":[{"name":"VANTA hero"}]}
 {% endschema %}
