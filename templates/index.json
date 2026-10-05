@@ -1,9 +1,1 @@
-{
-  "sections": {
-    "hero": {"type":"hero-editorial","settings":{}},
-    "paths": {"type":"pathways","settings":{}},
-    "engineering": {"type":"engineering","settings":{}},
-    "configurator": {"type":"configurator-cta","settings":{}}
-  },
-  "order":["hero","paths","engineering","configurator"]
-}
+{"sections":{"hero":{"type":"hero-editorial","settings":{}},"trust":{"type":"trust-strip","blocks":{"a":{"type":"item","settings":{"heading":"Precision fit","copy":"Configuration-led sizing"}},"b":{"type":"item","settings":{"heading":"Discreet by default","copy":"Private packaging & fulfillment"}},"c":{"type":"item","settings":{"heading":"Engineered","copy":"Purpose-built product architecture"}},"d":{"type":"item","settings":{"heading":"Supported","copy":"Guidance before & after purchase"}}},"block_order":["a","b","c","d"],"settings":{}},"manifesto":{"type":"brand-manifesto","settings":{}},"paths":{"type":"pathways","settings":{}},"collections":{"type":"featured-collections","blocks":{"core":{"type":"collection","settings":{"heading":"CORE","copy":"The essential VANTA FORM architecture."}},"petal":{"type":"collection","settings":{"heading":"PETAL","copy":"Our sculptural signature collection."}},"fufu":{"type":"collection","settings":{"heading":"FUFU","copy":"Minimal form, engineered intentionally."}}},"block_order":["core","petal","fufu"],"settings":{}},"engineering":{"type":"engineering","settings":{}},"configurator":{"type":"configurator-cta","settings":{}}},"order":["hero","trust","manifesto","paths","collections","engineering","configurator"]}
