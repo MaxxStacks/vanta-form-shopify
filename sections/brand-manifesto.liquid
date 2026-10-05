@@ -1,0 +1,16 @@
+<section class="manifesto section">
+  <div class="page-width manifesto__grid">
+    <div><span class="eyebrow">{{ section.settings.eyebrow }}</span></div>
+    <div>
+      <h2 class="manifesto__headline">{{ section.settings.heading }}</h2>
+      <p class="lead">{{ section.settings.copy }}</p>
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Brand manifesto","settings":[
+{"type":"text","id":"eyebrow","label":"Eyebrow","default":"The VANTA standard"},
+{"type":"textarea","id":"heading","label":"Heading","default":"Generic sizing was never good enough."},
+{"type":"textarea","id":"copy","label":"Copy","default":"We approach intimate wear as engineered personal equipment: considered geometry, precise sizing, refined materials and a manufacturing system designed around the individual."}
+],"presets":[{"name":"Brand manifesto"}]}
+{% endschema %}
