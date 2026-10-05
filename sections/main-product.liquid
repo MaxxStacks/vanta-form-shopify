@@ -14,7 +14,7 @@
         {% endif %}
       </div>
     {% else %}
-      <div class="product-media product-media--placeholder"><span class="eyebrow">Product imagery coming soon</span></div>
+      <div class="product-media product-media--placeholder"><div class="vf-pdp-cad"><span class="eyebrow">VANTA FORM / {{ product.metafields.custom.collection_label | default: product.product_type | default: 'Engineering' }}</span>{% render 'cad-art', family: product.title %}<small>CAD study shown until released product media is assigned.</small></div></div>
     {% endfor %}
   </div>
 
