@@ -1,0 +1,36 @@
+<section class="section">
+  <div class="page-width">
+    <div class="eyebrow">{{ section.settings.eyebrow }}</div>
+    <h2 class="h2">{{ section.settings.heading }}</h2>
+    <div class="editorial-grid">
+      {% for block in section.blocks %}
+        <a class="editorial-card" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
+          <div>
+            <span class="eyebrow">0{{ forloop.index }}</span>
+            <strong>{{ block.settings.heading }}</strong>
+            <p>{{ block.settings.copy }}</p>
+          </div>
+          <span>Explore →</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Shopping pathways",
+  "settings":[
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Find your form"},
+    {"type":"text","id":"heading","label":"Heading","default":"Three ways to find yours."}
+  ],
+  "blocks":[
+    {"type":"path","name":"Path","settings":[
+      {"type":"text","id":"heading","label":"Heading","default":"Shop the collection"},
+      {"type":"textarea","id":"copy","label":"Copy","default":"Explore our manufactured designs."},
+      {"type":"url","id":"link","label":"Link"}
+    ]}
+  ],
+  "max_blocks":3,
+  "presets":[{"name":"Shopping pathways","blocks":[{"type":"path"},{"type":"path"},{"type":"path"}]}]
+}
+{% endschema %}
