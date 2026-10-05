@@ -1,16 +1,21 @@
-<section class="manifesto section">
-  <div class="page-width manifesto__grid">
-    <div><span class="eyebrow">{{ section.settings.eyebrow }}</span></div>
-    <div>
-      <h2 class="manifesto__headline">{{ section.settings.heading }}</h2>
+<section class="vf-manifesto section">
+  <div class="page-width vf-manifesto__grid">
+    <div class="vf-manifesto__visual">
+      {% if section.settings.image != blank %}{{ section.settings.image | image_url: width: 1400 | image_tag: widths:'700,1000,1400', loading:'lazy', alt:section.settings.heading }}{% endif %}
+    </div>
+    <div class="vf-manifesto__copy">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2 class="vf-editorial">{{ section.settings.heading }}</h2>
       <p class="lead">{{ section.settings.copy }}</p>
+      <div class="vf-manifesto__signals"><span>Your anatomy</span><span>Your lifestyle</span><span>Your dynamic</span><span>Your expression</span></div>
     </div>
   </div>
 </section>
 {% schema %}
 {"name":"Brand manifesto","settings":[
-{"type":"text","id":"eyebrow","label":"Eyebrow","default":"The VANTA standard"},
-{"type":"textarea","id":"heading","label":"Heading","default":"Generic sizing was never good enough."},
-{"type":"textarea","id":"copy","label":"Copy","default":"We approach intimate wear as engineered personal equipment: considered geometry, precise sizing, refined materials and a manufacturing system designed around the individual."}
+{"type":"text","id":"eyebrow","label":"Eyebrow","default":"There is no standard body"},
+{"type":"textarea","id":"heading","label":"Heading","default":"Less of what you don't want. More of who you are."},
+{"type":"textarea","id":"copy","label":"Copy","default":"VANTA FORM develops original intimate-wear designs around fit, profile and expression. Our modular approach gives you a more intentional starting point than generic sizing."},
+{"type":"image_picker","id":"image","label":"Editorial image"}
 ],"presets":[{"name":"Brand manifesto"}]}
 {% endschema %}
