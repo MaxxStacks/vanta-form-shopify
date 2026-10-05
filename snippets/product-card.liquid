@@ -1,13 +1,1 @@
-<article class="product-card">
-  <a href="{{ product.url }}">
-    <div class="product-card__media">
-      {% if product.featured_image %}
-        {{ product.featured_image | image_url: width: 900 | image_tag: widths: '400,600,900', loading: 'lazy', alt: product.featured_image.alt | default: product.title }}
-      {% endif %}
-    </div>
-    <div class="product-card__body">
-      <div class="product-card__title">{{ product.title }}</div>
-      <div class="product-card__meta">{{ product.price | money_with_currency }}</div>
-    </div>
-  </a>
-</article>
+<article class="product-card"><a href="{{ product.url }}"><div class="product-card__media">{% if product.featured_image %}{{ product.featured_image | image_url:width:900 | image_tag:widths:'400,600,900',loading:'lazy',alt:product.featured_image.alt | default:product.title }}{% else %}<div class="vf-product-placeholder"><span>VANTA FORM</span><b>{{ product.metafields.custom.collection_label | default:product.type | default:'FORM' }}</b></div>{% endif %}{% unless product.available %}<span class="vf-product-badge">Unavailable</span>{% endunless %}</div><div class="product-card__body"><div><span class="product-card__collection">{{ product.metafields.custom.collection_label | default:product.vendor }}</span><div class="product-card__title">{{ product.title }}</div>{% if product.metafields.custom.short_description != blank %}<p>{{ product.metafields.custom.short_description }}</p>{% endif %}</div><div class="product-card__meta">{% if product.price_varies %}From {% endif %}{{ product.price | money_with_currency }}</div></div></a></article>
