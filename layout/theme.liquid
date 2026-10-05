@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#08090b">
+    <meta name="theme-color" content="#0b0a0b">
 
     <link rel="canonical" href="{{ canonical_url }}">
     {%- if settings.favicon != blank -%}
@@ -18,9 +18,9 @@
       {%- unless page_title contains shop.name %} – {{ shop.name }}{% endunless -%}
     </title>
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% endif %}
+    {%- capture vf_meta_description -%}{% if page_description %}{{ page_description }}{% elsif request.page_type == 'index' %}VANTA FORM designs and manufactures original fit-led intimate wear for discretion, control, transformation and expression. Canada, United States and international expansion.{% elsif request.page_type == 'collection' %}Explore {{ collection.title }} by VANTA FORM — original intimate-wear architecture developed around fit, profile and expression.{% elsif request.page_type == 'page' %}{{ page.content | strip_html | strip_newlines | truncate: 155 }}{% else %}Precision intimate engineering by VANTA FORM.{% endif %}{%- endcapture -%}
+    <meta name="description" content="{{ vf_meta_description | strip | escape }}">
+    {% if request.page_type == '404' or request.page_type == 'search' or request.page_type == 'collection' and collection.products_count == 0 %}<meta name="robots" content="noindex,follow">{% endif %}
 
     {% render 'meta-social' %}
     {% render 'structured-data' %}
