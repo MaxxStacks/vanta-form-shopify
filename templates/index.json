@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "hero": {"type":"hero-editorial","settings":{}},
+    "paths": {"type":"pathways","settings":{}},
+    "engineering": {"type":"engineering","settings":{}},
+    "configurator": {"type":"configurator-cta","settings":{}}
+  },
+  "order":["hero","paths","engineering","configurator"]
+}
