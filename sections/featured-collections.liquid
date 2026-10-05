@@ -7,7 +7,7 @@
       <a class="vf-collection-card vf-tone--{{ block.settings.tone }}" href="{{ collection.url | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
         <div class="vf-collection-card__media">
           {% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1000 | image_tag: widths:'420,700,1000', loading:'lazy', alt:block.settings.heading }}
-          {% elsif collection.featured_image %}{{ collection.featured_image | image_url: width: 1000 | image_tag: widths:'420,700,1000', loading:'lazy', alt:collection.title }}{% endif %}
+          {% elsif collection.featured_image %}{{ collection.featured_image | image_url: width: 1000 | image_tag: widths:'420,700,1000', loading:'lazy', alt:collection.title }}{% else %}{% render 'cad-art', family: block.settings.heading %}{% endif %}
         </div>
         <div class="vf-collection-card__shade"></div>
         <div class="vf-collection-card__body"><span class="eyebrow">{{ block.settings.kicker }}</span><h3>{{ block.settings.heading | default: collection.title }}</h3><p>{{ block.settings.copy }}</p><span class="vf-arrow" aria-hidden="true">→</span></div>
