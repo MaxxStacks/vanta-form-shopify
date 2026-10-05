@@ -1,0 +1,19 @@
+<section class="section">
+  <div class="page-width">
+    <div class="eyebrow">Collection</div>
+    <h1 class="h1">{{ collection.title }}</h1>
+    {% if collection.description != blank %}<div class="lead">{{ collection.description }}</div>{% endif %}
+    <div class="collection-grid">
+      {% paginate collection.products by 24 %}
+        {% for product in collection.products %}
+          {% render 'product-card', product: product %}
+        {% else %}
+          <p>No products yet.</p>
+        {% endfor %}
+      {% endpaginate %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Main collection","settings":[]}
+{% endschema %}
