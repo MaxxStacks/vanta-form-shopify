@@ -1,36 +1,18 @@
-<section class="section">
+<section class="section vf-discovery">
   <div class="page-width">
-    <div class="eyebrow">{{ section.settings.eyebrow }}</div>
-    <h2 class="h2">{{ section.settings.heading }}</h2>
-    <div class="editorial-grid">
+    <div class="section-head"><div><span class="eyebrow">{{ section.settings.eyebrow }}</span><h2 class="vf-editorial">{{ section.settings.heading }}</h2></div></div>
+    <div class="vf-discovery__rail">
       {% for block in section.blocks %}
-        <a class="editorial-card" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
-          <div>
-            <span class="eyebrow">0{{ forloop.index }}</span>
-            <strong>{{ block.settings.heading }}</strong>
-            <p>{{ block.settings.copy }}</p>
-          </div>
-          <span>Explore →</span>
+        <a class="vf-discovery-card" href="{{ block.settings.link | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
+          <span class="vf-discovery-card__index">0{{ forloop.index }}</span>
+          <div><h3>{{ block.settings.heading }}</h3><p>{{ block.settings.copy }}</p></div><span class="vf-arrow" aria-hidden="true">→</span>
         </a>
       {% endfor %}
     </div>
   </div>
 </section>
 {% schema %}
-{
-  "name":"Shopping pathways",
-  "settings":[
-    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Find your form"},
-    {"type":"text","id":"heading","label":"Heading","default":"Three ways to find yours."}
-  ],
-  "blocks":[
-    {"type":"path","name":"Path","settings":[
-      {"type":"text","id":"heading","label":"Heading","default":"Shop the collection"},
-      {"type":"textarea","id":"copy","label":"Copy","default":"Explore our manufactured designs."},
-      {"type":"url","id":"link","label":"Link"}
-    ]}
-  ],
-  "max_blocks":3,
-  "presets":[{"name":"Shopping pathways","blocks":[{"type":"path"},{"type":"path"},{"type":"path"}]}]
-}
+{"name":"Intent discovery","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Find your form"},{"type":"text","id":"heading","label":"Heading","default":"What are you looking for?"}],
+"blocks":[{"type":"path","name":"Path","settings":[{"type":"text","id":"heading","label":"Heading","default":"My first cage"},{"type":"textarea","id":"copy","label":"Copy","default":"Guidance, fit and essentials for a confident start."},{"type":"url","id":"link","label":"Link"}]}],"max_blocks":6,
+"presets":[{"name":"Intent discovery","blocks":[{"type":"path"},{"type":"path"},{"type":"path"},{"type":"path"},{"type":"path"},{"type":"path"}]}]}
 {% endschema %}
