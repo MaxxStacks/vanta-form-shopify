@@ -1,71 +1,85 @@
-<section class="page-width product-main">
+{% render 'breadcrumbs' %}
+<section class="page-width product-main" data-product-root>
   <div class="product-gallery" aria-label="{{ product.title }} media">
     {% for media in product.media %}
       <div class="product-media">
         {% if media.media_type == 'image' %}
-          {{ media | image_url: width: 1600 | image_tag: widths: '600,900,1200,1600', sizes: '(min-width: 960px) 60vw, 100vw', loading: forloop.first | default: false | if: 'eager', alt: media.alt | default: product.title }}
+          {% if forloop.first %}
+            {{ media | image_url: width: 1800 | image_tag: widths: '600,900,1200,1600,1800', sizes: '(min-width: 960px) 60vw, 100vw', loading: 'eager', fetchpriority: 'high', alt: media.alt | default: product.title }}
+          {% else %}
+            {{ media | image_url: width: 1800 | image_tag: widths: '600,900,1200,1600,1800', sizes: '(min-width: 960px) 60vw, 100vw', loading: 'lazy', alt: media.alt | default: product.title }}
+          {% endif %}
         {% else %}
           {{ media | media_tag }}
         {% endif %}
       </div>
     {% else %}
-      <div class="product-media"><span class="eyebrow">Product media</span></div>
+      <div class="product-media product-media--placeholder"><span class="eyebrow">Product imagery coming soon</span></div>
     {% endfor %}
   </div>
 
   <aside class="product-panel">
-    {% if product.metafields.custom.collection_label != blank %}<div class="eyebrow">{{ product.metafields.custom.collection_label }}</div>{% endif %}
+    <div class="product-kicker">{{ product.metafields.custom.collection_label | default: product.vendor | default: 'VANTA FORM' }}</div>
     <h1 class="product-title">{{ product.title }}</h1>
+    <div class="product-subline">
+      {% if product.metafields.custom.short_description != blank %}
+        {{ product.metafields.custom.short_description }}
+      {% else %}
+        {{ product.description | strip_html | truncatewords: 30 }}
+      {% endif %}
+    </div>
 
-    {% if product.metafields.custom.short_description != blank %}
-      <p class="lead">{{ product.metafields.custom.short_description }}</p>
-    {% elsif product.description != blank %}
-      <p class="lead">{{ product.description | strip_html | truncatewords: 34 }}</p>
-    {% endif %}
+    <div class="price-row">
+      <div class="price" data-price>{{ product.selected_or_first_available_variant.price | money_with_currency }}</div>
+      {% if product.compare_at_price_max > product.price %}<span class="compare-price">{{ product.compare_at_price_max | money }}</span>{% endif %}
+    </div>
 
-    <div class="price" data-price>{{ product.selected_or_first_available_variant.price | money_with_currency }}</div>
+    <div class="fit-callout">
+      <span class="fit-callout__mark">VF</span>
+      <div><strong>Fit before checkout.</strong><span>Use our measurement system to configure with confidence.</span></div>
+      <a href="/pages/fit-guide">Fit guide →</a>
+    </div>
 
-    {% form 'product', product, class: 'product-form' %}
+    {% form 'product', product, class: 'product-form', data-product-form: '' %}
       {% unless product.has_only_default_variant %}
         {% for option in product.options_with_values %}
-          <label class="option">
-            <span>{{ option.name }}</span>
-            <select name="options[{{ option.name | escape }}]" data-variant-select>
+          <fieldset class="option-group">
+            <legend><span>{{ option.name }}</span><small>{{ option.selected_value }}</small></legend>
+            <div class="option-values">
               {% for value in option.values %}
-                <option value="{{ value | escape }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
+                <label class="option-pill">
+                  <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %}>
+                  <span>{{ value }}</span>
+                </label>
               {% endfor %}
-            </select>
-          </label>
+            </div>
+          </fieldset>
         {% endfor %}
       {% endunless %}
 
-      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      <select class="visually-hidden" name="id" data-variant-id aria-label="Variant">
+        {% for variant in product.variants %}
+          <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title }}</option>
+        {% endfor %}
+      </select>
+
       <button class="btn add-btn" type="submit" {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
-        {% if product.selected_or_first_available_variant.available %}Add to bag{% else %}Unavailable{% endif %}
+        <span>{% if product.selected_or_first_available_variant.available %}Add to bag{% else %}Unavailable{% endif %}</span>
+        {% if product.selected_or_first_available_variant.available %}<span>{{ product.selected_or_first_available_variant.price | money }}</span>{% endif %}
       </button>
     {% endform %}
 
-    <div class="product-points">
-      <div>Custom-fit options</div>
-      <div>Discreet fulfillment</div>
-      <div>Precision manufactured</div>
-      <div>Support before & after purchase</div>
+    <div class="product-assurances">
+      <div><strong>Discreet</strong><span>Plain outer packaging</span></div>
+      <div><strong>Precise</strong><span>Configuration-led sizing</span></div>
+      <div><strong>Supported</strong><span>Help before & after purchase</span></div>
     </div>
 
-    {% if product.metafields.custom.fit_note != blank %}
-      <div class="richtext"><p>{{ product.metafields.custom.fit_note }}</p></div>
-    {% endif %}
+    <div class="product-accordions">
+      <details><summary>Fit & measurement <span>+</span></summary><div>{{ product.metafields.custom.fit_note | default: 'Measure before ordering. Detailed fit guidance and model-specific recommendations are available in our Fit Lab.' }}</div></details>
+      <details><summary>Materials & care <span>+</span></summary><div>{{ product.metafields.custom.care | default: 'Material and care instructions vary by configuration and are supplied with each product.' }}</div></details>
+      <details><summary>Manufacturing & lead time <span>+</span></summary><div>{{ product.metafields.custom.lead_time | default: 'Lead time is shown at checkout and may vary for custom configurations.' }}</div></details>
+      <details><summary>Discreet delivery <span>+</span></summary><div>Orders are prepared with privacy in mind. Detailed shipping and billing information is available in our delivery policy.</div></details>
+    </div>
   </aside>
 </section>
-
-{% if product.description != blank %}
-<section class="section">
-  <div class="page-width richtext">
-    <div class="eyebrow">Product details</div>
-    {{ product.description }}
-  </div>
-</section>
-{% endif %}
-{% schema %}
-{"name":"Main product","settings":[]}
-{% endschema %}
