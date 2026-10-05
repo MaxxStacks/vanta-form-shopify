@@ -1,0 +1,27 @@
+<section class="section">
+  <div class="page-width">
+    <div class="split">
+      <div>
+        <div class="eyebrow">{{ section.settings.eyebrow }}</div>
+        <h2 class="display">{{ section.settings.heading }}</h2>
+      </div>
+      <div>
+        <p class="lead">{{ section.settings.copy }}</p>
+        <a class="btn" href="{{ section.settings.link }}">{{ section.settings.label }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Configurator CTA",
+  "settings":[
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Custom fit"},
+    {"type":"textarea","id":"heading","label":"Heading","default":"NOT SMALL.\nNOT MEDIUM.\nYOURS."},
+    {"type":"textarea","id":"copy","label":"Copy","default":"Enter your measurements. Choose your form and finish. We manufacture the result."},
+    {"type":"text","id":"label","label":"Button","default":"Build yours"},
+    {"type":"url","id":"link","label":"Link"}
+  ],
+  "presets":[{"name":"Configurator CTA"}]
+}
+{% endschema %}
