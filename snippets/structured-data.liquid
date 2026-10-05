@@ -1,8 +1,10 @@
+{% assign search_placeholder = '{' | append: 'search_term_string' | append: '}' %}
+{% assign search_target = request.origin | append: routes.search_url | append: '?q=' | append: search_placeholder %}
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","@id":{{ request.origin | append: '#organization' | json }},"name":{{ shop.name | json }},"url":{{ request.origin | json }},{% if settings.logo != blank %}"logo":{{ settings.logo | image_url: width: 512 | prepend: 'https:' | json }},{% endif %}"description":{{ shop.description | default: 'Precision intimate engineering, custom-fit products and discreet fulfillment.' | json }}}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","@id":{{ request.origin | append: '#website' | json }},"url":{{ request.origin | json }},"name":{{ shop.name | json }},"publisher":{"@id":{{ request.origin | append: '#organization' | json }}},"potentialAction":{"@type":"SearchAction","target":{{ request.origin | append: '/search?q={search_term_string}' | json }},"query-input":"required name=search_term_string"}}
+{"@context":"https://schema.org","@type":"WebSite","@id":{{ request.origin | append: '#website' | json }},"url":{{ request.origin | json }},"name":{{ shop.name | json }},"publisher":{"@id":{{ request.origin | append: '#organization' | json }}},"potentialAction":{"@type":"SearchAction","target":{{ search_target | json }},"query-input":"required name=search_term_string"}}
 </script>
 {% if request.page_type == 'product' and product %}
 <script type="application/ld+json">
