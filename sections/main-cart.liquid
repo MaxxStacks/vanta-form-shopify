@@ -1,0 +1,5 @@
+<section class="section"><div class="page-width"><h1 class="h1">Your bag</h1>
+{% if cart.item_count == 0 %}<p>Your bag is empty.</p>{% else %}
+<form action="{{ routes.cart_url }}" method="post"><div>{% for item in cart.items %}<p>{{ item.product.title }} × {{ item.quantity }} — {{ item.final_line_price | money_with_currency }}</p>{% endfor %}</div><button class="btn" type="submit" name="checkout">Checkout</button></form>
+{% endif %}</div></section>
+{% schema %}{"name":"Main cart","settings":[]}{% endschema %}
