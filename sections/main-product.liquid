@@ -1,0 +1,71 @@
+<section class="page-width product-main">
+  <div class="product-gallery" aria-label="{{ product.title }} media">
+    {% for media in product.media %}
+      <div class="product-media">
+        {% if media.media_type == 'image' %}
+          {{ media | image_url: width: 1600 | image_tag: widths: '600,900,1200,1600', sizes: '(min-width: 960px) 60vw, 100vw', loading: forloop.first | default: false | if: 'eager', alt: media.alt | default: product.title }}
+        {% else %}
+          {{ media | media_tag }}
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="product-media"><span class="eyebrow">Product media</span></div>
+    {% endfor %}
+  </div>
+
+  <aside class="product-panel">
+    {% if product.metafields.custom.collection_label != blank %}<div class="eyebrow">{{ product.metafields.custom.collection_label }}</div>{% endif %}
+    <h1 class="product-title">{{ product.title }}</h1>
+
+    {% if product.metafields.custom.short_description != blank %}
+      <p class="lead">{{ product.metafields.custom.short_description }}</p>
+    {% elsif product.description != blank %}
+      <p class="lead">{{ product.description | strip_html | truncatewords: 34 }}</p>
+    {% endif %}
+
+    <div class="price" data-price>{{ product.selected_or_first_available_variant.price | money_with_currency }}</div>
+
+    {% form 'product', product, class: 'product-form' %}
+      {% unless product.has_only_default_variant %}
+        {% for option in product.options_with_values %}
+          <label class="option">
+            <span>{{ option.name }}</span>
+            <select name="options[{{ option.name | escape }}]" data-variant-select>
+              {% for value in option.values %}
+                <option value="{{ value | escape }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
+              {% endfor %}
+            </select>
+          </label>
+        {% endfor %}
+      {% endunless %}
+
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      <button class="btn add-btn" type="submit" {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+        {% if product.selected_or_first_available_variant.available %}Add to bag{% else %}Unavailable{% endif %}
+      </button>
+    {% endform %}
+
+    <div class="product-points">
+      <div>Custom-fit options</div>
+      <div>Discreet fulfillment</div>
+      <div>Precision manufactured</div>
+      <div>Support before & after purchase</div>
+    </div>
+
+    {% if product.metafields.custom.fit_note != blank %}
+      <div class="richtext"><p>{{ product.metafields.custom.fit_note }}</p></div>
+    {% endif %}
+  </aside>
+</section>
+
+{% if product.description != blank %}
+<section class="section">
+  <div class="page-width richtext">
+    <div class="eyebrow">Product details</div>
+    {{ product.description }}
+  </div>
+</section>
+{% endif %}
+{% schema %}
+{"name":"Main product","settings":[]}
+{% endschema %}
