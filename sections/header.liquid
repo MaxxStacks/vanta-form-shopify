@@ -1,0 +1,23 @@
+<header class="header-shell">
+  <div class="page-width header">
+    <a class="brand" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">{{ shop.name | default: 'VANTA FORM' }}</a>
+    <nav class="nav" aria-label="Primary">
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+    <div class="header-actions">
+      <a href="{{ routes.search_url }}">Search</a>
+      <a href="{{ routes.account_url }}">Account</a>
+      <a href="{{ routes.cart_url }}">Bag ({{ cart.item_count }})</a>
+    </div>
+  </div>
+</header>
+{% schema %}
+{
+  "name":"Header",
+  "settings":[
+    {"type":"link_list","id":"menu","label":"Menu","default":"main-menu"}
+  ]
+}
+{% endschema %}
