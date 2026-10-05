@@ -1,40 +1,22 @@
-<section class="section">
+<section class="section vf-collections">
 <div class="page-width">
-  <div class="section-head">
-    <div><span class="eyebrow">{{ section.settings.eyebrow }}</span><h2 class="h2">{{ section.settings.heading }}</h2></div>
-    {% if section.settings.link != blank %}<a class="text-link" href="{{ section.settings.link }}">View all collections →</a>{% endif %}
-  </div>
-  <div class="feature-collections">
+  <div class="section-head"><div><span class="eyebrow">{{ section.settings.eyebrow }}</span><h2 class="vf-editorial">{{ section.settings.heading }}</h2></div>{% if section.settings.link != blank %}<a class="text-link" href="{{ section.settings.link }}">View all →</a>{% endif %}</div>
+  <div class="vf-collection-rail">
     {% for block in section.blocks %}
       {% assign collection = block.settings.collection %}
-      <a class="feature-collection" href="{{ collection.url | default: '#' }}" {{ block.shopify_attributes }}>
-        <div class="feature-collection__media">
-          {% if block.settings.image != blank %}
-            {{ block.settings.image | image_url: width: 1200 | image_tag: widths:'600,900,1200', loading:'lazy', alt:block.settings.heading }}
-          {% elsif collection.featured_image %}
-            {{ collection.featured_image | image_url: width: 1200 | image_tag: widths:'600,900,1200', loading:'lazy', alt:collection.title }}
-          {% endif %}
+      <a class="vf-collection-card vf-tone--{{ block.settings.tone }}" href="{{ collection.url | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
+        <div class="vf-collection-card__media">
+          {% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1000 | image_tag: widths:'420,700,1000', loading:'lazy', alt:block.settings.heading }}
+          {% elsif collection.featured_image %}{{ collection.featured_image | image_url: width: 1000 | image_tag: widths:'420,700,1000', loading:'lazy', alt:collection.title }}{% endif %}
         </div>
-        <div class="feature-collection__body">
-          <span class="eyebrow">0{{ forloop.index }}</span>
-          <h3>{{ block.settings.heading | default: collection.title }}</h3>
-          <p>{{ block.settings.copy }}</p>
-          <span class="text-link">Discover →</span>
-        </div>
+        <div class="vf-collection-card__shade"></div>
+        <div class="vf-collection-card__body"><span class="eyebrow">{{ block.settings.kicker }}</span><h3>{{ block.settings.heading | default: collection.title }}</h3><p>{{ block.settings.copy }}</p><span class="vf-arrow" aria-hidden="true">→</span></div>
       </a>
     {% endfor %}
   </div>
 </div>
 </section>
 {% schema %}
-{"name":"Featured collections","settings":[
-{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Collections"},
-{"type":"text","id":"heading","label":"Heading","default":"Distinct by design."},
-{"type":"url","id":"link","label":"All collections link"}
-],"blocks":[{"type":"collection","name":"Collection","settings":[
-{"type":"collection","id":"collection","label":"Collection"},
-{"type":"image_picker","id":"image","label":"Override image"},
-{"type":"text","id":"heading","label":"Heading","default":"CORE"},
-{"type":"textarea","id":"copy","label":"Copy","default":"The essential VANTA FORM architecture."}
-]}],"max_blocks":3,"presets":[{"name":"Featured collections","blocks":[{"type":"collection"},{"type":"collection"},{"type":"collection"}]}]}
+{"name":"Signature collections","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Our signature collections"},{"type":"text","id":"heading","label":"Heading","default":"Choose your expression."},{"type":"url","id":"link","label":"All collections link"}],
+"blocks":[{"type":"collection","name":"Collection","settings":[{"type":"collection","id":"collection","label":"Collection"},{"type":"image_picker","id":"image","label":"Image"},{"type":"text","id":"kicker","label":"Kicker","default":"Signature 01"},{"type":"text","id":"heading","label":"Heading","default":"CORE"},{"type":"textarea","id":"copy","label":"Copy","default":"The fit changes everything."},{"type":"select","id":"tone","label":"Tone","default":"graphite","options":[{"value":"graphite","label":"Graphite"},{"value":"pearl","label":"Pearl"},{"value":"blush","label":"Blush"},{"value":"plum","label":"Plum"}]}]}],"max_blocks":6,"presets":[{"name":"Signature collections"}]}
 {% endschema %}
