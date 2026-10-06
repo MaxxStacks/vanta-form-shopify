@@ -4,7 +4,7 @@
 {%- if vf_fit_on -%}
 <div class="wrap" data-vf-fit>
   <div class="fit" data-vf-fit-stage>
-    <noscript><h1 class="cap h1">Find your fit</h1><p class="body">Turn on JavaScript to use the fit finder, or read our <a class="tl" href="{{ section.settings.guide }}">size guide</a>.</p></noscript>
+    <noscript><h1 class="cap h1">Find your fit</h1><p class="body">Turn on JavaScript to use the fit finder, or read our <a class="tl" href="{{ section.settings.guide | default: '/pages/fit-guide' }}">size guide</a>.</p></noscript>
   </div>
   <script type="application/json" data-vf-fit-data>{
     "h1": {{ section.settings.heading | json }},
@@ -20,7 +20,7 @@
 {% schema %}
 {"name":"Find your fit","settings":[
 {"type":"text","id":"heading","label":"First question","default":"What do you want most?"},
-{"type":"url","id":"guide","label":"Size guide link","default":"/pages/fit-guide"},
+{"type":"url","id":"guide","label":"Size guide link","info":"Leave empty to use /pages/fit-guide"},
 {"type":"text","id":"page_handle","label":"Show on page (handle)","default":"fit-lab","info":"On the default page template, Find your fit only appears on this page."}
 ],"blocks":[{"type":"want","name":"Answer","settings":[
 {"type":"text","id":"label","label":"Answer","default":"Wear it every day"},

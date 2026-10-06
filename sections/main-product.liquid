@@ -17,6 +17,7 @@
   endcapture
   assign colour_names = 'colour,color,couleur,finish,finition'
   assign swatch_lines = settings.swatches | newline_to_br | split: '<br />'
+  assign fit_link = section.settings.fit_link | default: '/pages/fit-lab'
 -%}
 {% render 'breadcrumbs' %}
 <div class="wrap" data-vf-product>
@@ -91,7 +92,7 @@
             </fieldset>
           {%- endfor -%}
         {%- endunless -%}
-        {%- if section.settings.fit_link != blank -%}<p class="sm" style="margin-top:-14px">Not sure of your size? <a class="tl" href="{{ section.settings.fit_link }}">Find your fit</a></p>{%- endif -%}
+        {%- if fit_link != blank -%}<p class="sm" style="margin-top:-14px">Not sure of your size? <a class="tl" href="{{ fit_link }}">Find your fit</a></p>{%- endif -%}
         <div style="display:grid;gap:12px">
           {%- if settings.nl_popup -%}<button class="perk" type="button" data-vf-open="nl"><b>15% off</b><span>your first form when you join the Inner Circle</span></button>{%- endif -%}
           <button class="btn full" type="submit" data-vf-add style="min-height:60px"{% unless current.available %} disabled{% endunless %}><span data-vf-add-label>{% if current.available %}Add to bag · {{ current.price | money }}{% else %}Sold out{% endif %}</span></button>
@@ -102,7 +103,7 @@
 
       <div class="acc">
         <details open><summary>Details</summary><div class="pn">{{ product.description }}</div></details>
-        <details><summary>Fit &amp; sizing</summary><div class="pn"><p>{{ product.metafields.custom.fit_note | default: section.settings.fit_text }}</p>{%- if section.settings.fit_link != blank -%}<p><a class="tl" href="{{ section.settings.fit_link }}">Find your fit</a></p>{%- endif -%}</div></details>
+        <details><summary>Fit &amp; sizing</summary><div class="pn"><p>{{ product.metafields.custom.fit_note | default: section.settings.fit_text }}</p>{%- if fit_link != blank -%}<p><a class="tl" href="{{ fit_link }}">Find your fit</a></p>{%- endif -%}</div></details>
         <details><summary>Materials &amp; making</summary><div class="pn"><p>{{ product.metafields.custom.material | default: 'Premium polymer, specified for each colour. Material specification published at release.' }}</p><p>{{ product.metafields.custom.manufacturing | default: 'Designed, engineered and manufactured in-house, backed by 20 years of manufacturing experience.' }}</p></div></details>
         <details><summary>Care</summary><div class="pn"><p>{{ product.metafields.custom.care | default: section.settings.care_text }}</p></div></details>
         <details><summary>Shipping &amp; returns</summary><div class="pn"><p>{{ product.metafields.custom.lead_time | default: 'Made to order. Lead time is confirmed at checkout.' }}</p><p>{{ section.settings.shipping_text }}</p></div></details>
@@ -117,7 +118,7 @@
 {% schema %}
 {"name":"Product","settings":[
 {"type":"text","id":"ticks","label":"Assurances (comma separated)","default":"Lifetime Lock Warranty, Plain unbranded shipping, Modular: replace any part later"},
-{"type":"url","id":"fit_link","label":"Find your fit link","default":"/pages/fit-lab"},
+{"type":"url","id":"fit_link","label":"Find your fit link","info":"Leave empty to use /pages/fit-lab"},
 {"type":"textarea","id":"fit_text","label":"Fit text (if no fit_note metafield)","default":"Choose your base from your base circumference, or use Find your fit for a recommendation. If you are between two bases, choose the larger. Remove immediately if you feel numbness, coldness, discolouration or pain. Fit guidance is a starting point, not medical advice."},
 {"type":"textarea","id":"care_text","label":"Care text (if no care metafield)","default":"Wash with warm water and mild, unscented soap after every wear, then air dry completely. Avoid boiling, dishwashers and alcohol-based cleaners."},
 {"type":"textarea","id":"shipping_text","label":"Shipping text","default":"Ships in plain, unbranded packaging with a neutral name on your statement."},
