@@ -36,7 +36,7 @@
     <div class="dh"><a class="logo" style="padding-left:0;font-size:18px" href="{{ routes.root_url }}">{{ shop.name }}</a><button class="ib" type="button" data-vf-close aria-label="Close menu">{{ vf_x }}</button></div>
     <div class="db"><nav class="mnav" aria-label="Mobile">
       {%- for link in linklists['vf-left'].links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- else -%}
-      <a href="{{ routes.all_products_collection_url }}">Shop all</a><a href="/collections/core">Chastity</a><a href="/collections/fufu">Feminization</a><a href="/pages/couples-keyholders">Keyholders</a>
+      <a href="{{ routes.all_products_collection_url }}">Shop all</a><a href="{{ routes.collections_url }}/core">Chastity</a><a href="{{ routes.collections_url }}/fufu">Feminization</a><a href="/pages/couples-keyholders">Keyholders</a>
       {%- endfor -%}
       {%- for link in linklists['vf-right'].links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- else -%}
       <a href="/pages/fit-lab">Find your fit</a><a href="/pages/manufacturing">Manufacturing</a><a href="/blogs/journal">Journal</a>

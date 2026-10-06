@@ -6,7 +6,7 @@
     <button class="ib burger" type="button" data-vf-open="menu" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 7h18M3 17h18"/></svg></button>
     <nav class="nav" aria-label="Primary">
       {%- for link in section.settings.menu_left.links -%}<a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>{%- else -%}
-      <a href="{{ routes.all_products_collection_url }}">Shop</a><a href="/collections/core">Chastity</a><a href="/collections/fufu">Feminization</a><a href="/pages/couples-keyholders">Keyholders</a>
+      <a href="{{ routes.all_products_collection_url }}">Shop</a><a href="{{ routes.collections_url }}/core">Chastity</a><a href="{{ routes.collections_url }}/fufu">Feminization</a><a href="/pages/couples-keyholders">Keyholders</a>
       {%- endfor -%}
     </nav>
   </div>
