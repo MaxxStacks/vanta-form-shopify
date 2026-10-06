@@ -1,13 +1,44 @@
-<footer class="vf-footer">
-<div class="page-width">
-<div class="vf-footer__lead"><div><span class="eyebrow">VANTA FORM</span><h2>Made for your form.</h2><p>Original intimate-wear architecture developed around fit, discretion, control and expression.</p></div>
-<div class="vf-footer__newsletter" id="newsletter"><span class="vf-footer__title">Private correspondence</span><p>Product releases, design notes and VANTA FORM Journal updates.</p>{% form 'customer', class:'vf-newsletter' %}<input type="hidden" name="contact[tags]" value="newsletter"><label class="visually-hidden" for="FooterEmail">Email</label><input id="FooterEmail" type="email" name="contact[email]" placeholder="Email address" required><button type="submit">Join →</button>{% if form.posted_successfully? %}<small>You're on the list.</small>{% endif %}{% endform %}</div></div>
-<div class="vf-footer__nav">
-<div><span class="vf-footer__title">Shop</span><a href="/collections/core">CORE</a><a href="/collections/stealth">STEALTH</a><a href="/collections/petal">PETAL</a><a href="/collections/fufu">FUFU</a><a href="/collections/signature">SIGNATURE</a><a href="{{ routes.all_products_collection_url }}">All products</a></div>
-<div><span class="vf-footer__title">Fit & support</span><a href="/pages/fit-lab">Fit Lab</a><a href="/pages/fit-guide">Fit guide</a><a href="/pages/care">Care</a><a href="/pages/shipping">Shipping</a><a href="/pages/returns">Returns</a><a href="/pages/contact">Contact</a></div>
-<div><span class="vf-footer__title">VANTA FORM</span><a href="/pages/about">About</a><a href="/pages/manufacturing">Manufacturing</a><a href="/pages/technology">Technology</a><a href="/pages/bespoke">Bespoke</a><a href="/blogs/journal">Journal</a></div>
-<div><span class="vf-footer__title">Legal</span><a href="/policies/privacy-policy">Privacy</a><a href="/policies/terms-of-service">Terms</a><a href="/policies/shipping-policy">Shipping policy</a><a href="/policies/refund-policy">Refund policy</a><a href="/pages/accessibility">Accessibility</a></div>
-</div>
-<div class="vf-footer__localization"><span class="vf-footer__title">Region</span>{% form 'localization', id:'VfLocalization' %}<select name="country_code" aria-label="Country / region" onchange="this.form.submit()">{% for country in localization.available_countries %}<option value="{{ country.iso_code }}" {% if country.iso_code == localization.country.iso_code %}selected{% endif %}>{{ country.name }} · {{ country.currency.iso_code }}</option>{% endfor %}</select>{% endform %}</div><div class="vf-footer__bottom"><span>© {{ 'now' | date: '%Y' }} VANTA FORM</span><span>Canada · United States · Worldwide</span><span>CAD · EN / FR</span></div>
+<footer class="ft"><div class="wrap">
+  <div class="fgrid">
+    <div style="grid-column:1/-1">
+      <a class="logo" href="{{ routes.root_url }}" style="color:#fff;padding-left:0">{{ shop.name }}</a>
+      <p style="margin-top:14px;color:rgba(255,255,255,.6);max-width:36ch;font-size:15px">{{ section.settings.tagline | escape }}</p>
+      {%- form 'customer', id: 'VfFooterForm' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter,inner-circle">
+        {%- if form.posted_successfully? -%}<p class="k" style="margin-top:16px;color:var(--pop)">You're in. Code: {{ settings.nl_code | escape }}</p>{%- else -%}
+        <div class="nlf"><label class="sr" for="VfFooterEmail">Email address</label><input id="VfFooterEmail" type="email" name="contact[email]" placeholder="Email for 15% off" autocomplete="email" required><button class="btn p" type="submit">Join</button></div>{%- endif -%}
+      {%- endform -%}
+    </div>
+    {%- liquid
+      assign menus = 'col1,col2,col3,col4' | split: ','
+    -%}
+    {%- for m in menus -%}
+      {%- assign key = 'menu_' | append: m -%}{%- assign t = 'title_' | append: m -%}
+      <div><h4>{{ section.settings[t] | escape }}</h4><ul>
+      {%- for link in section.settings[key].links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- else -%}
+        {%- case m -%}
+        {%- when 'col1' -%}<li><a href="/collections/core">Core</a></li><li><a href="/collections/stealth">Stealth</a></li><li><a href="/collections/fufu">Fufu</a></li><li><a href="/collections/petal">Petal</a></li><li><a href="/collections/signature">Signature</a></li><li><a href="{{ routes.all_products_collection_url }}">All forms</a></li>
+        {%- when 'col2' -%}<li><a href="/pages/fit-lab">Find your fit</a></li><li><a href="/pages/first-cage">My first cage</a></li><li><a href="/pages/everyday-discreet">Everyday &amp; discreet</a></li><li><a href="/pages/couples-keyholders">Couples &amp; keyholders</a></li>
+        {%- when 'col3' -%}<li><a href="/pages/shipping">Discreet shipping</a></li><li><a href="/pages/returns">Returns</a></li><li><a href="/pages/care">Care</a></li><li><a href="/pages/fit-guide">Fit guide</a></li><li><a href="/pages/contact">Contact</a></li>
+        {%- else -%}<li><a href="/pages/about">About</a></li><li><a href="/pages/manufacturing">Manufacturing</a></li><li><a href="/blogs/journal">Journal</a></li><li><a href="/policies/privacy-policy">Privacy</a></li><li><a href="/policies/terms-of-service">Terms</a></li><li><a href="/pages/accessibility">Accessibility</a></li>
+        {%- endcase -%}
+      {%- endfor -%}
+      </ul></div>
+    {%- endfor -%}
+  </div>
+  <div class="fbot">
+    <span>© {{ 'now' | date: '%Y' }} {{ shop.name }} · Adults 18+</span>
+    {%- if localization.available_countries.size > 1 -%}
+    {%- form 'localization', id: 'VfLocalization' -%}<label class="sr" for="VfCountry">Country / region</label><select id="VfCountry" name="country_code" onchange="this.form.submit()">{% for country in localization.available_countries %}<option value="{{ country.iso_code }}" {% if country.iso_code == localization.country.iso_code %}selected{% endif %}>{{ country.name }} · {{ country.currency.iso_code }}</option>{% endfor %}</select>{%- endform -%}
+    {%- else -%}<span>{{ localization.country.name }} · {{ localization.country.currency.iso_code }}</span>{%- endif -%}
+  </div>
 </div></footer>
-{% schema %}{"name":"VANTA footer","settings":[],"presets":[{"name":"VANTA footer"}]}{% endschema %}
+{% schema %}
+{"name":"Footer","settings":[
+{"type":"text","id":"tagline","label":"Tagline","default":"Precision intimate engineering. Designed and manufactured in Canada."},
+{"type":"text","id":"title_col1","label":"Column 1 title","default":"Collection"},{"type":"link_list","id":"menu_col1","label":"Column 1 menu"},
+{"type":"text","id":"title_col2","label":"Column 2 title","default":"For you"},{"type":"link_list","id":"menu_col2","label":"Column 2 menu"},
+{"type":"text","id":"title_col3","label":"Column 3 title","default":"Help"},{"type":"link_list","id":"menu_col3","label":"Column 3 menu"},
+{"type":"text","id":"title_col4","label":"Column 4 title","default":"Company"},{"type":"link_list","id":"menu_col4","label":"Column 4 menu"}
+],"presets":[{"name":"Footer"}]}
+{% endschema %}

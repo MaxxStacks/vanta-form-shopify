@@ -1,0 +1,84 @@
+{%- comment -%} Age gate, bag drawer, menu, search and Inner Circle popup. Content stays server-rendered for crawlers; overlays are progressive. {%- endcomment -%}
+{%- assign vf_x = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>' -%}
+
+{%- if settings.age_gate -%}
+<div class="gate" data-vf-gate hidden role="dialog" aria-modal="true" aria-labelledby="vf-gate-h"><div>
+  <span class="logo">{{ shop.name }}</span>
+  <h2 class="cap h2" id="vf-gate-h">{{ settings.age_gate_heading | escape }}</h2>
+  <p class="body" style="max-width:38ch">{{ settings.age_gate_text | escape }}</p>
+  <div style="display:grid;gap:10px;width:100%;max-width:320px"><button class="btn" type="button" data-vf-gate-yes>I am 18 or older</button><button class="btn o" type="button" data-vf-gate-no>Leave</button></div>
+  <p class="k" data-vf-gate-msg style="color:var(--grey)" hidden>You must be of legal age to enter.</p>
+</div></div>
+{%- endif -%}
+
+<div data-vf-layer="bag" hidden>
+  <div class="scrim" data-vf-close></div>
+  <aside class="drawer" role="dialog" aria-modal="true" aria-label="Your bag">
+    <div class="dh"><span class="k">Your bag (<span data-vf-count>{{ cart.item_count }}</span>)</span><button class="ib" type="button" data-vf-close aria-label="Close bag">{{ vf_x }}</button></div>
+    <div class="db" data-vf-bag-body></div>
+    <div class="df" data-vf-bag-foot></div>
+  </aside>
+</div>
+<script type="application/json" data-vf-config>{
+  "freeShipping": {{ settings.free_shipping_threshold | default: 0 | times: 100 | json }},
+  "moneyFormat": {{ shop.money_format | json }},
+  "cartNote": {{ settings.cart_note | json }},
+  "nlPopup": {{ settings.nl_popup | json }},
+  "nlDelay": {{ settings.nl_delay | json }},
+  "gate": {{ settings.age_gate | json }},
+  "routes": {"cart": {{ routes.cart_url | json }}, "cartAdd": {{ routes.cart_add_url | append: '.js' | json }}, "cartChange": {{ routes.cart_change_url | append: '.js' | json }}, "search": {{ routes.search_url | json }}, "predictive": {{ routes.predictive_search_url | json }}},
+  "upsells": [{% for p in settings.cart_upsells %}{"title": {{ p.title | json }}, "variant": {{ p.selected_or_first_available_variant.id | json }}, "available": {{ p.available | json }}, "price": {{ p.price | json }}, "desc": {{ p.metafields.custom.short_description | default: p.description | strip_html | truncatewords: 8 | json }}, "image": {% if p.featured_image %}{{ p.featured_image | image_url: width: 200 | json }}{% else %}null{% endif %}}{% unless forloop.last %},{% endunless %}{% endfor %}]
+}</script>
+
+<div data-vf-layer="menu" hidden>
+  <div class="scrim" data-vf-close></div>
+  <aside class="drawer left" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="dh"><a class="logo" style="padding-left:0;font-size:18px" href="{{ routes.root_url }}">{{ shop.name }}</a><button class="ib" type="button" data-vf-close aria-label="Close menu">{{ vf_x }}</button></div>
+    <div class="db"><nav class="mnav" aria-label="Mobile">
+      {%- for link in linklists['vf-left'].links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- else -%}
+      <a href="{{ routes.all_products_collection_url }}">Shop all</a><a href="/collections/core">Chastity</a><a href="/collections/fufu">Feminization</a><a href="/pages/couples-keyholders">Keyholders</a>
+      {%- endfor -%}
+      {%- for link in linklists['vf-right'].links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- else -%}
+      <a href="/pages/fit-lab">Find your fit</a><a href="/pages/manufacturing">Manufacturing</a><a href="/blogs/journal">Journal</a>
+      {%- endfor -%}
+    </nav>
+    {%- if settings.nl_popup -%}<button class="btn p full" type="button" style="margin-top:28px" data-vf-open="nl">Join · {{ settings.nl_heading | escape }}</button>{%- endif -%}</div>
+  </aside>
+</div>
+
+<div data-vf-layer="search" hidden>
+  <div class="scrim" data-vf-close></div>
+  <div class="search" role="dialog" aria-modal="true" aria-label="Search"><div class="wrap" style="padding-block:16px 28px">
+    <form action="{{ routes.search_url }}" method="get" role="search" style="display:flex;gap:8px;align-items:center">
+      <label class="sr" for="vf-q">Search</label>
+      <input id="vf-q" class="inp" type="search" name="q" placeholder="Search: discreet, flat, femme, keyholder…" autocomplete="off" style="font-size:18px" data-vf-q>
+      <button class="ib" type="button" data-vf-close aria-label="Close search">{{ vf_x }}</button>
+    </form>
+    <div data-vf-results style="margin-top:10px"></div>
+  </div></div>
+</div>
+
+{%- if settings.nl_popup -%}
+<div data-vf-layer="nl" hidden>
+  <div class="scrim" data-vf-close></div>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="vf-nl-h">
+    <button class="ib" type="button" data-vf-close aria-label="Close" style="position:absolute;right:8px;top:8px;color:#fff">{{ vf_x }}</button>
+    <p class="k" style="opacity:.85">The Inner Circle</p>
+    {%- form 'customer', id: 'VfPopupForm' -%}
+      {%- if form.posted_successfully? -%}
+        <h2 class="cap h2" id="vf-nl-h" style="margin-top:16px">You're in.</h2>
+        <p class="body">Use this code at checkout.</p><span class="code">{{ settings.nl_code | escape }}</span>
+        <span data-vf-nl-success hidden></span>
+      {%- else -%}
+        <h2 class="cap h2" id="vf-nl-h" style="margin-top:16px">{{ settings.nl_heading | escape }}</h2>
+        <p class="body">{{ settings.nl_text | escape }}</p>
+        <input type="hidden" name="contact[tags]" value="newsletter,inner-circle">
+        <div class="nlf"><label class="sr" for="VfPopupEmail">Email address</label><input id="VfPopupEmail" type="email" name="contact[email]" placeholder="Email address" autocomplete="email" required><button class="btn" type="submit">Join</button></div>
+        {%- if form.errors -%}<p class="k" style="margin-top:14px">{{ form.errors.translated_fields.email | default: 'Email' }} {{ form.errors.messages.email | default: 'is invalid' }}</p>{%- endif -%}
+      {%- endif -%}
+    {%- endform -%}
+    <p style="font-size:12px;margin-top:18px;opacity:.75">Unsubscribe any time. Adults 18+.</p>
+  </div>
+</div>
+{%- endif -%}
+<div class="toast" role="status" aria-live="polite" data-vf-toast hidden></div>

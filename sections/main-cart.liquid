@@ -1,2 +1,34 @@
-<section class="vf-page-hero vf-page-hero--compact"><div class="page-width"><span class="eyebrow">VANTA FORM</span><h1 class="vf-editorial">Your bag.</h1></div></section><section class="section"><div class="page-width">{% if cart.item_count == 0 %}<div class="vf-empty-state"><h2>Your bag is empty.</h2><p>Start with the collection universe or use the Fit Lab to find the right direction.</p><a class="btn" href="{{ routes.all_products_collection_url }}">Explore VANTA FORM</a></div>{% else %}<form action="{{ routes.cart_url }}" method="post" class="vf-cart"><div class="vf-cart__items">{% for item in cart.items %}<article class="vf-cart-item">{% if item.image %}<a href="{{ item.url }}">{{ item.image | image_url: width: 260 | image_tag: loading:'lazy', alt:item.product.title }}</a>{% endif %}<div><span class="eyebrow">{{ item.product.vendor }}</span><h2><a href="{{ item.url }}">{{ item.product.title }}</a></h2>{% unless item.variant.title == 'Default Title' %}<p>{{ item.variant.title }}</p>{% endunless %}<label>Quantity <input type="number" name="updates[]" value="{{ item.quantity }}" min="0"></label><a href="{{ item.url_to_remove }}">Remove</a></div><strong>{{ item.final_line_price | money_with_currency }}</strong></article>{% endfor %}<button class="btn btn--ghost" type="submit" name="update">Update bag</button></div><aside class="vf-cart__summary"><span class="eyebrow">Order summary</span><div><span>Subtotal</span><strong>{{ cart.total_price | money_with_currency }}</strong></div><p>Shipping, taxes and duties are calculated or confirmed during checkout where applicable.</p><button class="btn" type="submit" name="checkout">Secure checkout →</button><small>Canada · United States · Worldwide availability varies by destination.</small></aside></form>{% endif %}</div></section>
-{% schema %}{"name":"Main cart","settings":[]}{% endschema %}
+<div class="wrap">
+  <div class="phead"><p class="k pop">{{ shop.name }}</p><h1 class="cap h1">Your bag</h1></div>
+  {%- if cart.item_count == 0 -%}
+    <div class="empty" style="padding-top:0"><p class="body">Your bag is empty. Find your fit, or explore the collection.</p><div class="acts"><a class="btn" href="/pages/fit-lab">Find your fit</a><a class="btn o" href="{{ routes.all_products_collection_url }}">Shop the collection</a></div></div>
+  {%- else -%}
+  {%- assign th = settings.free_shipping_threshold | times: 100 -%}
+  <form action="{{ routes.cart_url }}" method="post" class="cartp">
+    <div>
+      {%- if th > 0 -%}<div style="display:grid;gap:8px;margin-bottom:12px">{%- if cart.total_price >= th -%}<p style="font-size:14px"><b class="pop">Free discreet shipping unlocked</b></p>{%- else -%}<p style="font-size:14px"><b>{{ th | minus: cart.total_price | money }}</b> away from free discreet shipping</p>{%- endif -%}{%- assign pct = cart.total_price | times: 100 | divided_by: th | at_most: 100 -%}<div class="ship"><i style="width:{{ pct }}%"></i></div></div>{%- endif -%}
+      {%- for item in cart.items -%}
+        <div class="ln">
+          <a href="{{ item.url }}">{% render 'vf-slot', image: item.image, alt: item.product.title, mini: true, sizes: '168px' %}</a>
+          <div style="display:grid;gap:6px">
+            <div class="sum"><a href="{{ item.url }}" style="text-decoration:none"><b style="text-transform:uppercase">{{ item.product.title }}</b></a><span>{{ item.final_line_price | money }}</span></div>
+            {%- unless item.product.has_only_default_variant -%}<p class="sm">{{ item.variant.title }}</p>{%- endunless -%}
+            {%- for p in item.properties -%}{%- unless p.first contains '_' or p.last == blank -%}<p class="sm" style="font-size:13px">{{ p.first }}: {{ p.last }}</p>{%- endunless -%}{%- endfor -%}
+            <div class="sum" style="align-items:center"><label class="qty"><span class="sr">Quantity</span><input type="number" name="updates[]" value="{{ item.quantity }}" min="0" inputmode="numeric"></label><a class="tl" href="{{ item.url_to_remove }}">Remove</a></div>
+          </div>
+        </div>
+      {%- endfor -%}
+      <button class="btn o" type="submit" name="update" style="margin-top:20px">Update bag</button>
+    </div>
+    <aside><div style="background:var(--off);padding:28px;display:grid;gap:14px">
+      <h2 class="k">Order summary</h2>
+      <div class="sum"><span class="sm">Subtotal</span><b>{{ cart.total_price | money }}</b></div>
+      {%- if cart.cart_level_discount_applications.size > 0 -%}{%- for d in cart.cart_level_discount_applications -%}<div class="sum pop"><span>{{ d.title }}</span><span>−{{ d.total_allocated_amount | money }}</span></div>{%- endfor -%}{%- endif -%}
+      <p class="sm">{{ settings.cart_note | escape }} Taxes and shipping are calculated at checkout.</p>
+      <label class="lbl" for="CartNote">Order note</label><textarea class="inp" id="CartNote" name="note" style="min-height:90px">{{ cart.note }}</textarea>
+      <button class="btn p full" type="submit" name="checkout" style="min-height:60px">Checkout</button>
+    </div></aside>
+  </form>
+  {%- endif -%}
+</div>
+{% schema %}{"name":"Bag","settings":[]}{% endschema %}

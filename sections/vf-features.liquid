@@ -1,0 +1,29 @@
+{%- if product -%}
+{%- liquid
+  assign known = 'core,stealth,fufu,petal,arc,hex,signature,air,void,form' | split: ','
+  assign key = product.collections.first.handle
+  for c in product.collections
+    if known contains c.handle
+      assign key = c.handle
+      break
+    endif
+  endfor
+  assign imgs = product.media | where: 'media_type', 'image'
+-%}
+<section class="wrap">
+  {%- for i in (1..3) -%}
+    {%- capture fh -%}f{{ i }}h{%- endcapture -%}{%- capture ft -%}f{{ i }}t{%- endcapture -%}{%- capture fc -%}f{{ i }}c{%- endcapture -%}
+    {%- capture h -%}{% render 'vf-copy', key: key, field: fh %}{%- endcapture -%}
+    {%- capture t -%}{% render 'vf-copy', key: key, field: ft %}{%- endcapture -%}
+    {%- capture cap -%}{% render 'vf-copy', key: key, field: fc %}{%- endcapture -%}
+    {%- assign img = imgs[i] -%}
+    <div class="feat{% if i == 2 %} rev{% endif %}">
+      {% render 'vf-slot', image: img, caption: cap, alt: h %}
+      <div style="display:grid;gap:18px"><span class="n">0{{ i }}</span><h2 class="cap h3">{{ h }}</h2><p class="body">{{ t }}</p></div>
+    </div>
+  {%- endfor -%}
+</section>
+{%- endif -%}
+{% schema %}
+{"name":"Product features","settings":[{"type":"paragraph","content":"Three feature rows. Images come from the product's 2nd to 4th images; copy comes from the collection defaults."}],"presets":[{"name":"Product features"}]}
+{% endschema %}

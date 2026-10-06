@@ -1,4 +1,25 @@
 [
-{"name":"theme_info","theme_name":"VANTA FORM","theme_version":"0.1.1","theme_author":"Maxx Stacks","theme_documentation_url":"https://github.com/MaxxStacks/vanta-form-shopify","theme_support_url":"https://github.com/MaxxStacks/vanta-form-shopify/issues"},
-{"name":"Brand","settings":[{"type":"image_picker","id":"logo","label":"Logo"},{"type":"image_picker","id":"favicon","label":"Favicon"}]}
+{"name":"theme_info","theme_name":"VANTA FORM","theme_version":"0.2.0","theme_author":"Maxx Stacks","theme_documentation_url":"https://github.com/MaxxStacks/vanta-form-shopify","theme_support_url":"https://github.com/MaxxStacks/vanta-form-shopify/issues"},
+{"name":"Brand","settings":[{"type":"image_picker","id":"logo","label":"Logo"},{"type":"image_picker","id":"favicon","label":"Favicon"}]},
+{"name":"Age gate","settings":[
+ {"type":"checkbox","id":"age_gate","label":"Show 18+ age confirmation","default":true},
+ {"type":"text","id":"age_gate_heading","label":"Heading","default":"Adults only"},
+ {"type":"textarea","id":"age_gate_text","label":"Text","default":"VANTA FORM designs and manufactures intimate products for adults. Please confirm you are 18 or older."}
+]},
+{"name":"Bag","settings":[
+ {"type":"number","id":"free_shipping_threshold","label":"Free shipping threshold (store currency)","default":150},
+ {"type":"product_list","id":"cart_upsells","label":"Often added (bag drawer)","limit":4},
+ {"type":"text","id":"cart_note","label":"Bag footnote","default":"Ships in plain, unbranded packaging."}
+]},
+{"name":"Inner Circle","settings":[
+ {"type":"checkbox","id":"nl_popup","label":"Show signup popup","default":true},
+ {"type":"range","id":"nl_delay","label":"Popup delay (seconds)","min":5,"max":60,"step":5,"default":15},
+ {"type":"text","id":"nl_heading","label":"Heading","default":"15% off your first form"},
+ {"type":"textarea","id":"nl_text","label":"Text","default":"Early access to new releases, members-only colours and private offers. Discreet, never shared."},
+ {"type":"text","id":"nl_code","label":"Discount code shown after signup","default":"WELCOME15"}
+]},
+{"name":"Colour swatches","settings":[
+ {"type":"paragraph","content":"Colour options named below show as swatches on product pages. Format: Name:#hex, one per line."},
+ {"type":"textarea","id":"swatches","label":"Swatches","default":"Black:#0B0B0B\nSmoke:#8A8D93\nFrost:#DDE3EA\nClear:#DDE3EA\nRose:#E8A7B4\nFuchsia:#E6007E\nPearl:#EDE8E3\nPlum:#6E4A63\nBlush:#E3B5B1\nGraphite:#3A3B40\nWhite:#FFFFFF"}
+]}
 ]

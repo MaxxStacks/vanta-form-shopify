@@ -1,0 +1,21 @@
+<section class="hero" aria-labelledby="vf-hero-{{ section.id }}">
+  {% render 'vf-slot', image: section.settings.image, caption: section.settings.caption, tag: 'Hero', dark: true, eager: true, sizes: '100vw', alt: section.settings.image.alt %}
+  <div class="ov"><div class="wrap">
+    {%- if section.settings.eyebrow != blank -%}<p class="k" style="color:rgba(255,255,255,.85)">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+    <h1 class="cap h1" id="vf-hero-{{ section.id }}">{{ section.settings.heading | escape | newline_to_br }} <span class="pop">{{ section.settings.heading_pop | escape }}</span></h1>
+    {%- if section.settings.text != blank -%}<p class="lede">{{ section.settings.text | escape }}</p>{%- endif -%}
+    {%- if section.settings.button_label != blank -%}<a class="btn w" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label | escape }}</a>{%- endif -%}
+  </div></div>
+</section>
+{% schema %}
+{"name":"Hero","settings":[
+{"type":"image_picker","id":"image","label":"Image"},
+{"type":"textarea","id":"caption","label":"Art direction (shown until an image is set)","default":"Campaign portrait. Androgynous model in tailored black, soft side light, monochrome, shot from the shoulders down. No product visible."},
+{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Precision intimate engineering"},
+{"type":"textarea","id":"heading","label":"Heading","default":"Your body.\nYour"},
+{"type":"text","id":"heading_pop","label":"Heading accent word","default":"form."},
+{"type":"textarea","id":"text","label":"Text","default":"Chastity and feminization wear, designed, engineered and manufactured in-house. Built around you, not a size chart."},
+{"type":"text","id":"button_label","label":"Button label","default":"Discover the collection"},
+{"type":"url","id":"button_link","label":"Button link"}
+],"presets":[{"name":"Hero"}]}
+{% endschema %}

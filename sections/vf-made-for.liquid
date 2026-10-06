@@ -1,0 +1,29 @@
+{%- if product -%}
+{%- liquid
+  assign known = 'core,stealth,fufu,petal,arc,hex,signature,air,void,form' | split: ','
+  assign key = product.collections.first.handle
+  for c in product.collections
+    if known contains c.handle
+      assign key = c.handle
+      break
+    endif
+  endfor
+  capture who
+    render 'vf-copy', key: key, field: 'who'
+  endcapture
+  capture tags_s
+    render 'vf-copy', key: key, field: 'tags'
+  endcapture
+  assign who = product.metafields.custom.story_copy | default: who
+  assign tags = tags_s | split: ','
+-%}
+<section class="made"><div class="wrap" style="display:grid;gap:28px">
+  <p class="k pop">{{ section.settings.eyebrow | escape }}</p>
+  {%- if product.metafields.custom.story_heading != blank -%}<h2 class="cap h3">{{ product.metafields.custom.story_heading }}</h2>{%- endif -%}
+  <p class="cap h2" style="max-width:20ch">{{ who }}</p>
+  <div class="who">{%- for t in tags -%}<span>{{ t | strip | escape }}</span>{%- endfor -%}</div>
+</div></section>
+{%- endif -%}
+{% schema %}
+{"name":"Made for","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Made for"},{"type":"paragraph","content":"Uses the product's story metafields when set, otherwise the default copy for its collection."}],"presets":[{"name":"Made for"}]}
+{% endschema %}

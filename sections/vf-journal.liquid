@@ -1,0 +1,31 @@
+{%- assign blog = blogs[section.settings.blog] | default: blogs['journal'] -%}
+<section class="wrap" style="padding-block:120px">
+  <div class="shead" style="margin-bottom:56px"><h2 class="cap h2">{{ section.settings.heading | escape }}</h2><a class="lnk" href="{{ blog.url | default: '/blogs/journal' }}">All articles</a></div>
+  <div class="jr">
+  {%- if blog.articles.size > 0 -%}
+    {%- for article in blog.articles limit: 3 -%}
+      <article class="jrow{% cycle '', ' rev' %}">
+        {% render 'vf-slot', image: article.image, caption: 'Editorial image for this article.', alt: article.title %}
+        <div style="display:grid;gap:18px"><p class="k pop">{{ article.tags.first | default: 'Journal' }}</p><h3 class="cap h3"><a href="{{ article.url }}" style="text-decoration:none">{{ article.title }}</a></h3><p class="body">{{ article.excerpt_or_content | strip_html | truncatewords: 32 }}</p><a class="lnk" style="justify-self:start" href="{{ article.url }}">Read the guide</a></div>
+      </article>
+    {%- endfor -%}
+  {%- else -%}
+    {%- for block in section.blocks -%}
+      <article class="jrow{% cycle '', ' rev' %}" {{ block.shopify_attributes }}>
+        {% render 'vf-slot', image: block.settings.image, caption: block.settings.caption %}
+        <div style="display:grid;gap:18px"><p class="k pop">{{ block.settings.kicker | escape }}</p><h3 class="cap h3">{{ block.settings.title | escape }}</h3><p class="body">{{ block.settings.text | escape }}</p><a class="lnk" style="justify-self:start" href="{{ block.settings.link | default: '/blogs/journal' }}">Read the guide</a></div>
+      </article>
+    {%- endfor -%}
+  {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{"name":"Journal","settings":[
+{"type":"text","id":"heading","label":"Heading","default":"Better locked"},
+{"type":"blog","id":"blog","label":"Blog"},
+{"type":"paragraph","content":"Shows the latest 3 articles. The blocks below show only when the blog has no articles."}
+],"max_blocks":3,"blocks":[{"type":"article","name":"Placeholder article","settings":[
+{"type":"image_picker","id":"image","label":"Image"},{"type":"textarea","id":"caption","label":"Art direction"},
+{"type":"text","id":"kicker","label":"Kicker"},{"type":"text","id":"title","label":"Title"},{"type":"textarea","id":"text","label":"Text"},{"type":"url","id":"link","label":"Link"}]}],
+"presets":[{"name":"Journal"}]}
+{% endschema %}

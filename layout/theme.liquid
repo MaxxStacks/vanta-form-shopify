@@ -27,6 +27,9 @@
 
     {{ content_for_header }}
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap">
     {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
     <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
   </head>
@@ -41,5 +44,7 @@
     </main>
 
     {% sections 'footer-group' %}
+
+    {% render 'vf-overlays' %}
   </body>
 </html>

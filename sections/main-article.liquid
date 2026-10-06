@@ -1,1 +1,9 @@
-<article class="vf-article"><header class="vf-page-hero"><div class="page-width"><span class="eyebrow">VANTA FORM Journal · {{ article.published_at | date:'%B %d, %Y' }}</span><h1 class="vf-editorial">{{ article.title }}</h1>{% if article.excerpt != blank %}<p class="lead">{{ article.excerpt | strip_html }}</p>{% endif %}</div></header>{% if article.image %}<div class="page-width vf-article__image">{{ article.image | image_url:width:1800 | image_tag:loading:'eager',fetchpriority:'high',alt:article.title }}</div>{% endif %}<div class="page-width vf-prose vf-article__body">{{ article.content }}</div></article>{% schema %}{"name":"Main article","settings":[]}{% endschema %}
+<article class="wrap info">
+  <p class="k pop">{{ article.tags.first | default: 'Journal' }} · {{ article.published_at | date: '%B %-d, %Y' }}</p>
+  <h1 class="cap h1" style="margin-top:14px;max-width:18ch">{{ article.title }}</h1>
+  {%- if article.excerpt != blank -%}<p class="body" style="margin-top:20px;max-width:60ch">{{ article.excerpt | strip_html }}</p>{%- endif -%}
+  {%- if article.image -%}<div style="margin-top:48px">{% render 'vf-slot', image: article.image, alt: article.title, eager: true, sizes: '100vw', attrs: 'style="aspect-ratio:21/9"' %}</div>{%- endif -%}
+  <div class="prose" style="margin-top:48px">{{ article.content }}</div>
+  <p style="margin-top:56px"><a class="lnk" href="{{ blog.url }}">All articles</a></p>
+</article>
+{% schema %}{"name":"Article","settings":[]}{% endschema %}

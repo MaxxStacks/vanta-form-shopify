@@ -1,0 +1,20 @@
+{%- comment -%}
+  Image slot. Renders the image when one is set, otherwise an art-directed placeholder.
+  Params: image, caption, tag, dark, mini, alt, eager, sizes, attrs
+{%- endcomment -%}
+{%- liquid
+  assign vf_sizes = sizes | default: '(min-width: 900px) 50vw, 100vw'
+  assign vf_tag = tag | default: 'Image'
+  assign vf_alt = image.alt | default: alt | default: ''
+-%}
+<div class="slot{% if dark %} dk{% endif %}{% if mini %} mini{% endif %}" {{ attrs }}>
+  {%- if image != blank -%}
+    {%- if eager -%}
+      {{ image | image_url: width: 2000 | image_tag: widths: '400,700,1000,1400,2000', sizes: vf_sizes, loading: 'eager', fetchpriority: 'high', alt: vf_alt }}
+    {%- else -%}
+      {{ image | image_url: width: 1400 | image_tag: widths: '300,500,800,1100,1400', sizes: vf_sizes, loading: 'lazy', alt: vf_alt }}
+    {%- endif -%}
+  {%- else -%}
+    <span class="ca" aria-hidden="true"><b>{{ vf_tag }}</b><span>{{ caption }}</span></span>
+  {%- endif -%}
+</div>

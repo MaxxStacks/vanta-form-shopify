@@ -1,0 +1,17 @@
+<section class="nl" id="inner-circle"><div class="wrap">
+  <p class="k" style="opacity:.85">{{ section.settings.eyebrow | escape }}</p>
+  {%- form 'customer', id: 'VfNewsletter' -%}
+    <input type="hidden" name="contact[tags]" value="newsletter,inner-circle">
+    {%- if form.posted_successfully? -%}
+      <h2 class="cap h2" style="margin-top:16px">You're in.</h2><p class="body">Use this code at checkout.</p><span class="code">{{ settings.nl_code | escape }}</span>
+    {%- else -%}
+      <h2 class="cap h2" style="margin-top:16px">{{ settings.nl_heading | escape }}</h2>
+      <p class="body">{{ settings.nl_text | escape }}</p>
+      <div class="nlf"><label class="sr" for="VfNlEmail">Email address</label><input id="VfNlEmail" type="email" name="contact[email]" placeholder="Email address" autocomplete="email" required><button class="btn" type="submit">Join</button></div>
+      {%- if form.errors -%}<p class="k" style="margin-top:14px">Enter a valid email address.</p>{%- endif -%}
+    {%- endif -%}
+  {%- endform -%}
+</div></section>
+{% schema %}
+{"name":"Inner Circle signup","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"The Inner Circle"},{"type":"paragraph","content":"Heading, text and code are set in Theme settings › Inner Circle."}],"presets":[{"name":"Inner Circle signup"}]}
+{% endschema %}

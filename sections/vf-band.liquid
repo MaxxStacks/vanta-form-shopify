@@ -1,0 +1,33 @@
+{%- assign dark = false -%}{%- if section.settings.style == 'dark' -%}{%- assign dark = true -%}{%- endif -%}
+<section class="band{% if section.settings.reverse %} rev{% endif %}{% if dark %} dark{% endif %}{% if section.settings.first %} first{% endif %}" aria-labelledby="vf-band-{{ section.id }}">
+  {% render 'vf-slot', image: section.settings.image, caption: section.settings.caption, dark: dark, alt: section.settings.image.alt %}
+  <div class="tx">
+    <p class="k pop">{{ section.settings.eyebrow | escape }}</p>
+    <h2 class="cap h2" id="vf-band-{{ section.id }}">{{ section.settings.heading | escape | newline_to_br }}</h2>
+    <div class="body">{{ section.settings.text }}</div>
+    {%- assign tags = section.settings.tags | split: ',' -%}
+    {%- if section.settings.tags != blank -%}<div class="who{% if section.settings.pink_tags %} pk{% endif %}">{%- for t in tags -%}<span>{{ t | strip | escape }}</span>{%- endfor -%}</div>{%- endif -%}
+    <div class="acts">
+      {%- if section.settings.button_label != blank -%}<a class="btn{% if dark %} w{% endif %}" href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }}</a>{%- endif -%}
+      {%- if section.settings.link_label != blank -%}<a class="lnk" href="{{ section.settings.link_url }}">{{ section.settings.link_label | escape }}</a>{%- endif -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{"name":"Audience band","settings":[
+{"type":"image_picker","id":"image","label":"Image"},
+{"type":"textarea","id":"caption","label":"Art direction (shown until an image is set)"},
+{"type":"select","id":"style","label":"Style","default":"light","options":[{"value":"light","label":"White"},{"value":"dark","label":"Black"}]},
+{"type":"checkbox","id":"reverse","label":"Image on the right","default":false},
+{"type":"checkbox","id":"first","label":"Add space above","default":false},
+{"type":"text","id":"eyebrow","label":"Eyebrow","default":"For the submissive"},
+{"type":"textarea","id":"heading","label":"Heading","default":"Surrender,\nengineered."},
+{"type":"richtext","id":"text","label":"Text","default":"<p>Describe who this is for.</p>"},
+{"type":"text","id":"tags","label":"Audience tags (comma separated)"},
+{"type":"checkbox","id":"pink_tags","label":"Fuchsia tags","default":false},
+{"type":"text","id":"button_label","label":"Button label"},
+{"type":"url","id":"button_link","label":"Button link"},
+{"type":"text","id":"link_label","label":"Secondary link label"},
+{"type":"url","id":"link_url","label":"Secondary link"}
+],"presets":[{"name":"Audience band"}]}
+{% endschema %}

@@ -1,0 +1,22 @@
+<section class="wrap" style="padding-bottom:120px">
+  <div class="shead" style="margin-bottom:32px"><h2 class="cap h3">{{ section.settings.heading | escape }}</h2><a class="lnk" href="{{ routes.all_products_collection_url }}">All forms</a></div>
+  <div class="cols">
+  {%- assign shown = 0 -%}
+  {%- for c in section.settings.collections -%}
+    {%- if shown < 3 -%}{%- assign skip = false -%}
+      {%- if product -%}{%- for pc in product.collections -%}{%- if pc.id == c.id -%}{%- assign skip = true -%}{%- endif -%}{%- endfor -%}{%- endif -%}
+      {%- if collection and collection.id == c.id -%}{%- assign skip = true -%}{%- endif -%}
+      {%- unless skip -%}{%- assign shown = shown | plus: 1 -%}
+      <a class="col" href="{{ c.url }}">
+        {% render 'vf-slot', image: c.featured_image, caption: 'Packshot on seamless white, three-quarter view, soft shadow.', alt: c.title, sizes: '(min-width: 900px) 33vw, 50vw' %}
+        <div class="row"><h3>{{ c.title }}</h3>{%- if c.products.size > 0 -%}<span class="sm">From {{ c.products.first.price_min | money }}</span>{%- endif -%}</div>
+        <p>{{ c.description | strip_html | truncatewords: 14 }}</p><span class="lnk">Discover {{ c.title }}</span>
+      </a>
+      {%- endunless -%}
+    {%- endif -%}
+  {%- endfor -%}
+  </div>
+</section>
+{% schema %}
+{"name":"Explore other forms","settings":[{"type":"text","id":"heading","label":"Heading","default":"Explore other forms"},{"type":"collection_list","id":"collections","label":"Collections","limit":8}],"presets":[{"name":"Explore other forms"}]}
+{% endschema %}

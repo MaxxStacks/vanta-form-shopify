@@ -1,6 +1,48 @@
-<section class="vf-collection-hero"><div class="page-width vf-collection-hero__grid"><div><span class="eyebrow">VANTA FORM / Collection</span><h1 class="vf-editorial">{{ collection.title }}</h1>{% if collection.description != blank %}<div class="lead">{{ collection.description }}</div>{% endif %}<div class="vf-collection-meta"><span>{{ collection.products_count }} designs</span><a href="/pages/fit-lab">Need help choosing? Fit Lab →</a></div></div><div class="vf-collection-hero__cad">{% render 'cad-art' %}</div></div></section>
-<section class="section vf-shop-grid"><div class="page-width">
-<form class="vf-collection-tools" method="get"><div class="vf-filter-row">{% for filter in collection.filters %}<details class="vf-filter"><summary>{{ filter.label }} <span>+</span></summary><div class="vf-filter__panel">{% case filter.type %}{% when 'list' or 'boolean' %}{% for value in filter.values %}<label><input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %}> <span>{{ value.label }} <small>{{ value.count }}</small></span></label>{% endfor %}{% when 'price_range' %}<div class="vf-price-filter"><input name="{{ filter.min_value.param_name }}" type="number" placeholder="Min" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"><input name="{{ filter.max_value.param_name }}" type="number" placeholder="Max" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"></div>{% endcase %}<button class="btn" type="submit">Apply</button></div></details>{% endfor %}</div>
-<label class="vf-sort">Sort <select name="sort_by" onchange="this.form.submit()">{% assign sort_by=collection.sort_by | default: collection.default_sort_by %}{% for option in collection.sort_options %}<option value="{{ option.value }}" {% if option.value == sort_by %}selected{% endif %}>{{ option.name }}</option>{% endfor %}</select></label></form>
-{% paginate collection.products by 24 %}<div class="collection-grid">{% for product in collection.products %}{% render 'product-card', product: product %}{% else %}<div class="vf-empty-state"><span class="eyebrow">In development</span><h2>This collection is being manufactured into reality.</h2><p>VANTA FORM will release products only when the design and production specification are ready. Explore the Fit Lab or join private correspondence for release updates.</p><div><a class="btn" href="/pages/fit-lab">Explore Fit Lab</a><a class="btn btn--ghost" href="/#newsletter">Release updates</a></div></div>{% endfor %}</div>{% if paginate.pages > 1 %}<nav class="vf-pagination">{{ paginate | default_pagination }}</nav>{% endif %}{% endpaginate %}</div></section>
-{% schema %}{"name":"Main collection","settings":[]}{% endschema %}
+{%- liquid
+  capture who
+    render 'vf-copy', key: collection.handle, field: 'tag'
+  endcapture
+-%}
+{% render 'breadcrumbs' %}
+<div class="wrap">
+  <div class="phead">
+    <p class="k pop">{{ section.settings.eyebrow | escape }}</p>
+    <h1 class="cap h1">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}<div class="body">{{ collection.description }}</div>{%- else -%}<p class="body">{{ who }}</p>{%- endif -%}
+  </div>
+  <form class="tools" method="get" action="{{ collection.url }}">
+    <div class="chips" role="group" aria-label="Collections">
+      <a class="chip" href="{{ routes.all_products_collection_url }}"{% if collection.handle == 'all' %} aria-current="page"{% endif %}>All</a>
+      {%- for c in section.settings.chips -%}<a class="chip" href="{{ c.url }}"{% if c.id == collection.id %} aria-current="page"{% endif %}>{{ c.title }}</a>{%- endfor -%}
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      {%- if collection.filters.size > 0 -%}<div class="filters">{%- for filter in collection.filters -%}
+        <details class="filter"><summary>{{ filter.label }}{% if filter.active_values.size > 0 %} ({{ filter.active_values.size }}){% endif %}</summary><div class="panel">
+        {%- case filter.type -%}
+          {%- when 'list', 'boolean' -%}{%- for value in filter.values -%}<label><input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}> {{ value.label }} <span class="sm">({{ value.count }})</span></label>{%- endfor -%}
+          {%- when 'price_range' -%}<div style="display:flex;gap:8px"><input class="inp" name="{{ filter.min_value.param_name }}" type="number" placeholder="Min" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}" aria-label="Minimum price"><input class="inp" name="{{ filter.max_value.param_name }}" type="number" placeholder="Max" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}" aria-label="Maximum price"></div>
+        {%- endcase -%}<button class="btn" type="submit" style="min-height:44px">Apply</button></div></details>
+      {%- endfor -%}</div>{%- endif -%}
+      <label class="k" style="display:flex;gap:10px;align-items:center;color:var(--grey)">Sort
+        {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+        <select class="inp" name="sort_by" onchange="this.form.submit()" style="min-height:44px;width:auto">{%- for option in collection.sort_options -%}<option value="{{ option.value }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name }}</option>{%- endfor -%}</select>
+      </label>
+    </div>
+  </form>
+  {%- paginate collection.products by 24 -%}
+  {%- if collection.products.size > 0 -%}
+    <div class="cols" style="padding-bottom:72px">{%- for product in collection.products -%}{% render 'product-card', product: product %}{%- endfor -%}</div>
+    {%- if paginate.pages > 1 -%}<nav class="pager" aria-label="Pagination">{%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">←</a>{%- endif -%}{%- for part in paginate.parts -%}{%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>{%- else -%}<span{% if part.title == paginate.current_page %} class="current" aria-current="page"{% endif %}>{{ part.title }}</span>{%- endif -%}{%- endfor -%}{%- if paginate.next -%}<a href="{{ paginate.next.url }}">→</a>{%- endif -%}</nav>{%- endif -%}
+  {%- else -%}
+    <div class="empty"><p class="k pop">In development</p><h2 class="cap h2">Coming soon</h2><p class="body">We release a form only when its design and production specification are ready. Find your fit, or join the Inner Circle for release updates.</p><div class="acts"><a class="btn" href="/pages/fit-lab">Find your fit</a><a class="lnk" href="/#inner-circle">Release updates</a></div></div>
+  {%- endif -%}
+  {%- endpaginate -%}
+  <section style="margin-block:48px 120px;padding:56px 28px;background:var(--ink);color:#fff;text-align:center;display:grid;gap:18px;justify-items:center"><p class="k pop">Not sure which form?</p><h2 class="cap h2">Find your fit in<br>90 seconds.</h2><a class="btn p" href="{{ section.settings.fit_link | default: '/pages/fit-lab' }}">Find your fit</a></section>
+</div>
+{% schema %}
+{"name":"Collection","settings":[
+{"type":"text","id":"eyebrow","label":"Eyebrow","default":"VANTA FORM"},
+{"type":"collection_list","id":"chips","label":"Collection chips","limit":12},
+{"type":"url","id":"fit_link","label":"Find your fit link"}
+]}
+{% endschema %}

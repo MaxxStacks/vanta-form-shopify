@@ -1,2 +1,19 @@
-<section class="vf-page-hero vf-page-hero--compact"><div class="page-width"><span class="eyebrow">Discover</span><h1 class="vf-editorial">Search VANTA FORM.</h1><form class="vf-search-form" action="{{ routes.search_url }}" method="get" role="search"><input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search collections, fit, products…" autocomplete="off"><button type="submit">Search →</button></form></div></section>{% if search.performed %}<section class="section"><div class="page-width"><div class="section-head"><p>{{ search.results_count }} results for “{{ search.terms | escape }}”</p></div><div class="collection-grid">{% for item in search.results %}{% if item.object_type == 'product' %}{% render 'product-card', product:item %}{% else %}<a class="vf-search-result" href="{{ item.url }}"><span class="eyebrow">{{ item.object_type }}</span><h2>{{ item.title }}</h2><p>{{ item.content | strip_html | truncatewords:24 }}</p></a>{% endif %}{% else %}<div class="vf-empty-state"><h2>No exact match.</h2><p>Try a collection name, fit, discreet, feminine, custom or browse the Fit Lab.</p><a class="btn" href="/pages/fit-lab">Open Fit Lab</a></div>{% endfor %}</div></div></section>{% endif %}
-{% schema %}{"name":"Main search","settings":[]}{% endschema %}
+<div class="wrap" style="padding-block:56px 120px">
+  <p class="k pop">Search</p>
+  <h1 class="cap h1" style="margin-top:14px">{% if search.performed %}{{ search.terms | escape }}{% else %}Search{% endif %}</h1>
+  <form action="{{ routes.search_url }}" method="get" role="search" style="display:flex;gap:8px;margin-top:28px;max-width:640px"><label class="sr" for="SearchPage">Search</label><input id="SearchPage" class="inp" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search: discreet, flat, femme, keyholder…"><button class="btn" type="submit">Search</button></form>
+  {%- if search.performed -%}
+    <p class="sm" style="margin-top:20px">{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %}</p>
+    {%- paginate search.results by 24 -%}
+    <div class="cols" style="margin-top:40px">
+    {%- for item in search.results -%}
+      {%- if item.object_type == 'product' -%}{% render 'product-card', product: item %}
+      {%- else -%}<a class="col" href="{{ item.url }}"><p class="k pop">{{ item.object_type }}</p><h3>{{ item.title }}</h3><p>{{ item.content | strip_html | truncatewords: 24 }}</p><span class="lnk">Open</span></a>{%- endif -%}
+    {%- else -%}
+      <div class="empty"><h2 class="cap h3">No exact match</h2><p class="body">Try a collection name, or a word like discreet, flat or keyholder.</p><a class="btn" href="/pages/fit-lab">Find your fit</a></div>
+    {%- endfor -%}
+    </div>
+    {%- endpaginate -%}
+  {%- endif -%}
+</div>
+{% schema %}{"name":"Search","settings":[]}{% endschema %}

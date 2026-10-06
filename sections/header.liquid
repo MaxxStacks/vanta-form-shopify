@@ -1,17 +1,31 @@
-<header class="header-shell" data-vf-header>
-<div class="page-width header">
-<button class="vf-menu-toggle" type="button" aria-expanded="false" aria-controls="vf-mobile-nav"><span></span><span></span><span class="visually-hidden">Open menu</span></button>
-<a class="brand" href="{{ routes.root_url }}" aria-label="VANTA FORM home">VANTA FORM<small>Precision intimate engineering</small></a>
-<nav class="vf-desktop-nav" aria-label="Primary">
-<div class="vf-nav-shop"><button type="button" class="vf-nav-trigger" aria-expanded="false" aria-controls="vf-mega-shop">Shop</button><div id="vf-mega-shop" class="vf-mega" hidden><div class="page-width vf-mega__grid"><div class="vf-mega__intro"><span class="eyebrow">Shop VANTA FORM</span><h2>Find your form.</h2><p>Explore original VANTA FORM architecture by profile, purpose and expression.</p><a href="{{ routes.all_products_collection_url }}">Shop all →</a></div><div><span class="vf-mega__label">Architecture</span><a href="/collections/core">CORE</a><a href="/collections/air">AIR</a><a href="/collections/stealth">STEALTH</a><a href="/collections/arc">ARC</a><a href="/collections/hex">HEX</a><a href="/collections/void">VOID</a></div><div><span class="vf-mega__label">Expression</span><a href="/collections/form">FORM</a><a href="/collections/petal">PETAL</a><a href="/collections/fufu">FUFU</a><a href="/collections/signature">SIGNATURE</a><a href="/pages/bespoke">Bespoke</a></div><div><span class="vf-mega__label">Start here</span><a href="/pages/fit-lab">Fit Lab</a><a href="/pages/first-cage">My first cage</a><a href="/pages/everyday-discreet">Everyday & discreet</a><a href="/pages/couples-keyholders">Couples & keyholders</a><a href="/pages/manufacturing">How we manufacture</a></div></div></div></div>
-<a href="/pages/fit-lab">Build yours</a><a href="/pages/bespoke">Bespoke</a><a href="/pages/technology">Technology</a><a href="/blogs/journal">Journal</a></nav>
-<div class="header-actions"><a href="{{ routes.search_url }}">Search</a><a class="vf-account-link" href="{{ routes.account_url }}">Account</a><a href="{{ routes.cart_url }}">Bag <span data-cart-count>{{ cart.item_count }}</span></a></div></div>
-<div id="vf-mobile-nav" class="vf-mobile-nav" hidden>
-<div class="vf-mobile-nav__top"><span>VANTA FORM / MENU</span><button type="button" data-vf-menu-close aria-label="Close menu">×</button></div>
-<div class="vf-mobile-nav__body">
-<section class="vf-mobile-nav__section"><span class="vf-mobile-nav__label">Shop</span><div class="vf-mobile-nav__collections"><a href="/collections/core">CORE</a><a href="/collections/stealth">STEALTH</a><a href="/collections/air">AIR</a><a href="/collections/petal">PETAL</a><a href="/collections/fufu">FUFU</a><a href="/collections/signature">SIGNATURE</a><a href="{{ routes.all_products_collection_url }}">ALL PRODUCTS</a></div></section>
-<section class="vf-mobile-nav__section vf-mobile-nav__main"><a href="/pages/fit-lab">Build yours <span>→</span></a><a href="/pages/bespoke">Bespoke <span>→</span></a><a href="/pages/technology">Technology <span>→</span></a><a href="/blogs/journal">Journal <span>→</span></a></section>
-<section class="vf-mobile-nav__section"><span class="vf-mobile-nav__label">Find your form</span><a class="vf-mobile-nav__small" href="/pages/first-cage">My first cage</a><a class="vf-mobile-nav__small" href="/pages/everyday-discreet">Everyday & discreet</a><a class="vf-mobile-nav__small" href="/pages/couples-keyholders">Couples & keyholders</a></section>
-</div>
-<div class="vf-mobile-nav__footer"><a href="{{ routes.search_url }}">Search</a><a href="{{ routes.account_url }}">Account</a><a href="/pages/contact">Contact</a></div></div></header>
-{% schema %}{"name":"Header","settings":[]}{% endschema %}
+{%- if section.settings.announcement != blank -%}
+<div class="bar">{% if section.settings.announcement_link != blank %}<a href="{{ section.settings.announcement_link }}">{{ section.settings.announcement | escape }}</a>{% else %}{{ section.settings.announcement | escape }}{% endif %}</div>
+{%- endif -%}
+<header class="hdr" data-vf-header><div class="wrap">
+  <div style="display:flex;align-items:center;gap:28px">
+    <button class="ib burger" type="button" data-vf-open="menu" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 7h18M3 17h18"/></svg></button>
+    <nav class="nav" aria-label="Primary">
+      {%- for link in section.settings.menu_left.links -%}<a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>{%- else -%}
+      <a href="{{ routes.all_products_collection_url }}">Shop</a><a href="/collections/core">Chastity</a><a href="/collections/fufu">Feminization</a><a href="/pages/couples-keyholders">Keyholders</a>
+      {%- endfor -%}
+    </nav>
+  </div>
+  <a class="logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }} home">{% if settings.logo != blank %}{{ settings.logo | image_url: width: 360 | image_tag: alt: shop.name, loading: 'eager' }}{% else %}{{ shop.name }}{% endif %}</a>
+  <div class="icons">
+    <nav class="nav" aria-label="Secondary">
+      {%- for link in section.settings.menu_right.links -%}<a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>{%- else -%}
+      <a href="/pages/fit-lab">Find your fit</a><a href="/pages/manufacturing">Manufacturing</a>
+      {%- endfor -%}
+    </nav>
+    <a class="ib" href="{{ routes.search_url }}" data-vf-open="search" aria-label="Search"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></a>
+    <a class="ib" href="{{ routes.cart_url }}" data-vf-open="bag" aria-label="Open bag"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="bdg" data-vf-count data-n="{{ cart.item_count }}">{{ cart.item_count }}</span></a>
+  </div>
+</div></header>
+{% schema %}
+{"name":"Header","settings":[
+{"type":"text","id":"announcement","label":"Announcement bar","default":"Discreet shipping · Lifetime Lock Warranty · 15% off your first form"},
+{"type":"url","id":"announcement_link","label":"Announcement link"},
+{"type":"link_list","id":"menu_left","label":"Left menu"},
+{"type":"link_list","id":"menu_right","label":"Right menu"}
+]}
+{% endschema %}

@@ -1,0 +1,17 @@
+<section class="wrap state">
+  <p class="k pop">{{ section.settings.eyebrow | escape }}</p>
+  <h2 class="cap h1" style="max-width:14ch">{{ section.settings.heading | escape | newline_to_br }}</h2>
+  <div class="body" style="text-align:center;max-width:52ch">{{ section.settings.text }}</div>
+  {%- if section.blocks.size > 0 -%}<div class="nums">{%- for block in section.blocks -%}<div {{ block.shopify_attributes }}><b>{{ block.settings.value | escape }}</b><span>{{ block.settings.label | escape }}</span></div>{%- endfor -%}</div>{%- endif -%}
+  {%- if section.settings.link_label != blank -%}<a class="lnk" style="margin-top:12px" href="{{ section.settings.link_url }}">{{ section.settings.link_label | escape }}</a>{%- endif -%}
+</section>
+{% schema %}
+{"name":"Statement","settings":[
+{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Manufacturer, not reseller"},
+{"type":"textarea","id":"heading","label":"Heading","default":"We don't resell.\nWe make it."},
+{"type":"richtext","id":"text","label":"Text","default":"<p>Every piece is designed, engineered and manufactured by our own team.</p>"},
+{"type":"text","id":"link_label","label":"Link label","default":"How we make it"},
+{"type":"url","id":"link_url","label":"Link"}
+],"max_blocks":3,"blocks":[{"type":"num","name":"Number","settings":[{"type":"text","id":"value","label":"Value","default":"20"},{"type":"text","id":"label","label":"Label","default":"Years of manufacturing experience"}]}],
+"presets":[{"name":"Statement","blocks":[{"type":"num"},{"type":"num"},{"type":"num"}]}]}
+{% endschema %}

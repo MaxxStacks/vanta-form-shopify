@@ -1,106 +1,126 @@
+{%- liquid
+  assign known = 'core,stealth,fufu,petal,arc,hex,signature,air,void,form' | split: ','
+  assign family = product.collections.first
+  for c in product.collections
+    if known contains c.handle
+      assign family = c
+      break
+    endif
+  endfor
+  assign key = family.handle | default: ''
+  assign current = product.selected_or_first_available_variant
+  capture default_tag
+    render 'vf-copy', key: key, field: 'tag'
+  endcapture
+  capture default_tags
+    render 'vf-copy', key: key, field: 'tags'
+  endcapture
+  assign colour_names = 'colour,color,couleur,finish,finition'
+  assign swatch_lines = settings.swatches | newline_to_br | split: '<br />'
+-%}
 {% render 'breadcrumbs' %}
-<section class="page-width product-main" data-product-root>
-  <div class="product-gallery" aria-label="{{ product.title }} media">
-    {% for media in product.media %}
-      <div class="product-media" data-media-id="{{ media.id }}">
-        {% if media.media_type == 'image' %}
-          {% if forloop.first %}
-            {{ media | image_url: width: 1800 | image_tag: widths: '600,900,1200,1600,1800', sizes: '(min-width: 960px) 60vw, 100vw', loading: 'eager', fetchpriority: 'high', alt: media.alt | default: product.title }}
-          {% else %}
-            {{ media | image_url: width: 1800 | image_tag: widths: '600,900,1200,1600,1800', sizes: '(min-width: 960px) 60vw, 100vw', loading: 'lazy', alt: media.alt | default: product.title }}
-          {% endif %}
-        {% else %}
-          {{ media | media_tag }}
-        {% endif %}
+<div class="wrap" data-vf-product>
+  <div class="pdp">
+    <div class="gal">
+      <div class="gmain">
+        {%- if product.media.size > 0 -%}
+          {%- for media in product.media -%}
+            <div class="slide{% if forloop.first %} on{% endif %}">
+              {%- if media.media_type == 'image' -%}
+                {%- if forloop.first -%}{% render 'vf-slot', image: media, alt: product.title, eager: true, sizes: '(min-width: 1000px) 55vw, 100vw' %}{%- else -%}{% render 'vf-slot', image: media, alt: product.title, sizes: '(min-width: 1000px) 55vw, 100vw' %}{%- endif -%}
+              {%- else -%}<div class="slot">{{ media | media_tag: image_size: '1400x' }}</div>{%- endif -%}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for i in (1..5) -%}
+            {%- capture g -%}g{{ i }}{%- endcapture -%}
+            {%- capture cap -%}{% render 'vf-copy', key: key, field: g %}{%- endcapture -%}
+            <div class="slide{% if forloop.first %} on{% endif %}">{% render 'vf-slot', caption: cap, tag: 'Image' %}</div>
+          {%- endfor -%}
+        {%- endif -%}
       </div>
-    {% else %}
-      <div class="product-media product-media--placeholder"><div class="vf-pdp-cad"><span class="eyebrow">VANTA FORM / {{ product.metafields.custom.collection_label | default: product.product_type | default: 'Engineering' }}</span>{% render 'cad-art', family: product.title %}<small>CAD study shown until released product media is assigned.</small></div></div>
-    {% endfor %}
+      <div class="gthumbs" role="group" aria-label="Choose image">
+        {%- if product.media.size > 0 -%}
+          {%- for media in product.media limit: 10 -%}
+            <button type="button" data-vf-thumb="{{ forloop.index0 }}" data-media="{{ media.id }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Show image {{ forloop.index }}">{% render 'vf-slot', image: media.preview_image, alt: '', mini: true, sizes: '120px' %}</button>
+          {%- endfor -%}
+        {%- else -%}
+          {%- assign labels = 'Hero,Side,Worn,Detail,Box' | split: ',' -%}
+          {%- for l in labels -%}<button type="button" data-vf-thumb="{{ forloop.index0 }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Show {{ l }} image">{% render 'vf-slot', tag: l, mini: true %}</button>{%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="buy">
+      <div style="display:grid;gap:12px">
+        <p class="k pop">{{ product.metafields.custom.collection_label | default: default_tags | replace: ',', ' ·' }}</p>
+        <h1 class="cap">{{ product.title }}</h1>
+        <p style="font-size:20px;font-weight:600">{{ product.metafields.custom.short_description | default: default_tag }}</p>
+        <div class="price"><b data-vf-price>{{ current.price | money }}</b><s data-vf-compare{% unless current.compare_at_price > current.price %} hidden{% endunless %}>{{ current.compare_at_price | money }}</s><span class="sm">{{ cart.currency.iso_code }}{% if product.metafields.custom.lead_time != blank %} · made to order{% endif %}</span></div>
+      </div>
+
+      {%- if family and family.products_count > 1 -%}
+      <fieldset><legend><span>Version</span><span>{{ product.title }}</span></legend>
+        <div class="og og{% if family.products_count > 3 %}4{% else %}{{ family.products_count }}{% endif %}">
+          {%- for p in family.products limit: 4 -%}<a class="o" href="{{ p.url }}"{% if p.id == product.id %} aria-current="page"{% endif %}>{{ p.title | remove: family.title | strip | default: p.title }}<small>{{ p.price_min | money }}</small></a>{%- endfor -%}
+        </div>
+      </fieldset>
+      {%- endif -%}
+
+      {%- form 'product', product, data-vf-product-form: '', novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" value="{{ current.id }}">
+        <div style="display:grid;gap:28px">
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            {%- assign oname = option.name | downcase -%}
+            <fieldset data-vf-option>
+              <legend><span>{{ option.name }}</span><span data-vf-option-value>{{ option.selected_value }}</span></legend>
+              {%- if colour_names contains oname -%}
+                <div class="sws">
+                {%- for value in option.values -%}
+                  {%- assign hex = '#CCCCCC' -%}
+                  {%- for line in swatch_lines -%}{%- assign pair = line | strip | split: ':' -%}{%- if pair[0] == value -%}{%- assign hex = pair[1] | strip -%}{%- endif -%}{%- endfor -%}
+                  <label class="sw" style="--swatch:{{ hex }}" title="{{ value | escape }}"><input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}"{% if option.selected_value == value %} checked{% endif %} aria-label="{{ value | escape }}"></label>
+                {%- endfor -%}
+                </div>
+              {%- else -%}
+                <div class="og{% if option.values.size == 2 %} og2{% elsif option.values.size == 3 %} og3{% elsif option.values.size == 4 %} og4{% endif %}">
+                {%- for value in option.values -%}<label class="o"><input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}"{% if option.selected_value == value %} checked{% endif %}>{{ value }}</label>{%- endfor -%}
+                </div>
+              {%- endif -%}
+            </fieldset>
+          {%- endfor -%}
+        {%- endunless -%}
+        {%- if section.settings.fit_link != blank -%}<p class="sm" style="margin-top:-14px">Not sure of your size? <a class="tl" href="{{ section.settings.fit_link }}">Find your fit</a></p>{%- endif -%}
+        <div style="display:grid;gap:12px">
+          {%- if settings.nl_popup -%}<button class="perk" type="button" data-vf-open="nl"><b>15% off</b><span>your first form when you join the Inner Circle</span></button>{%- endif -%}
+          <button class="btn full" type="submit" data-vf-add style="min-height:60px"{% unless current.available %} disabled{% endunless %}><span data-vf-add-label>{% if current.available %}Add to bag · {{ current.price | money }}{% else %}Sold out{% endif %}</span></button>
+          {%- assign ticks = section.settings.ticks | split: ',' -%}<ul class="ticks">{%- for t in ticks -%}<li>{% render 'vf-check' %}{{ t | strip | escape }}</li>{%- endfor -%}</ul>
+        </div>
+        </div>
+      {%- endform -%}
+
+      <div class="acc">
+        <details open><summary>Details</summary><div class="pn">{{ product.description }}</div></details>
+        <details><summary>Fit &amp; sizing</summary><div class="pn"><p>{{ product.metafields.custom.fit_note | default: section.settings.fit_text }}</p>{%- if section.settings.fit_link != blank -%}<p><a class="tl" href="{{ section.settings.fit_link }}">Find your fit</a></p>{%- endif -%}</div></details>
+        <details><summary>Materials &amp; making</summary><div class="pn"><p>{{ product.metafields.custom.material | default: 'Premium polymer, specified for each colour. Material specification published at release.' }}</p><p>{{ product.metafields.custom.manufacturing | default: 'Designed, engineered and manufactured in-house, backed by 20 years of manufacturing experience.' }}</p></div></details>
+        <details><summary>Care</summary><div class="pn"><p>{{ product.metafields.custom.care | default: section.settings.care_text }}</p></div></details>
+        <details><summary>Shipping &amp; returns</summary><div class="pn"><p>{{ product.metafields.custom.lead_time | default: 'Made to order. Lead time is confirmed at checkout.' }}</p><p>{{ section.settings.shipping_text }}</p></div></details>
+        <details><summary>Lifetime Lock Warranty</summary><div class="pn"><p>{{ section.settings.warranty_text }}</p></div></details>
+      </div>
+    </div>
   </div>
 
-  <aside class="product-panel">
-    <div class="product-kicker">{{ product.metafields.custom.collection_label | default: product.vendor | default: 'VANTA FORM' }}</div>
-    <h1 class="product-title">{{ product.title }}</h1>
-    <div class="product-subline">
-      {% if product.metafields.custom.short_description != blank %}
-        {{ product.metafields.custom.short_description }}
-      {% else %}
-        {{ product.description | strip_html | truncatewords: 30 }}
-      {% endif %}
-    </div>
-
-    <div class="price-row">
-      <div class="price" data-price>{{ product.selected_or_first_available_variant.price | money_with_currency }}</div>
-      <span class="compare-price{% unless product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %} visually-hidden{% endunless %}" data-compare-price>
-        {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}{{ product.selected_or_first_available_variant.compare_at_price | money_with_currency }}{% endif %}
-      </span>
-    </div>
-
-    <div class="fit-callout">
-      <span class="fit-callout__mark">VF</span>
-      <div><strong>Fit before checkout.</strong><span>Use our measurement system to configure with confidence.</span></div>
-      <a href="{{ routes.root_url }}pages/fit-guide" data-vf-event="fit_guide_open">Fit guide →</a>
-    </div>
-
-    {% form 'product', product, class: 'product-form', data-product-form: '' %}
-      {% unless product.has_only_default_variant %}
-        {% for option in product.options_with_values %}
-          <fieldset class="option-group" data-option-index="{{ forloop.index0 }}">
-            <legend><span>{{ option.name }}</span><small data-option-value>{{ option.selected_value }}</small></legend>
-            <div class="option-values">
-              {% for value in option.values %}
-                <label class="option-pill">
-                  <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %}>
-                  <span>{{ value }}</span>
-                </label>
-              {% endfor %}
-            </div>
-          </fieldset>
-        {% endfor %}
-      {% endunless %}
-
-      <select class="visually-hidden" name="id" data-variant-id aria-label="Variant">
-        {% for variant in product.variants %}
-          <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>{{ variant.title }}</option>
-        {% endfor %}
-      </select>
-
-      <button class="btn add-btn" type="submit" data-add-to-cart {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
-        <span data-add-label>{% if product.selected_or_first_available_variant.available %}Add to bag{% else %}Unavailable{% endif %}</span>
-        <span data-add-price>{% if product.selected_or_first_available_variant.available %}{{ product.selected_or_first_available_variant.price | money }}{% endif %}</span>
-      </button>
-    {% endform %}
-
-    <script type="application/json" data-product-variants>
-      [
-        {% for variant in product.variants %}
-          {
-            "id": {{ variant.id | json }},
-            "available": {{ variant.available | json }},
-            "options": {{ variant.options | json }},
-            "price": {{ variant.price | json }},
-            "priceFormatted": {{ variant.price | money_with_currency | json }},
-            "priceButton": {{ variant.price | money | json }},
-            "compareAtPrice": {{ variant.compare_at_price | default: 0 | json }},
-            "compareAtPriceFormatted": {{ variant.compare_at_price | money_with_currency | json }},
-            "featuredMediaId": {{ variant.featured_media.id | default: 0 | json }}
-          }{% unless forloop.last %},{% endunless %}
-        {% endfor %}
-      ]
-    </script>
-
-    <div class="product-assurances">
-      <div><strong>Original</strong><span>VANTA FORM product architecture</span></div>
-      <div><strong>Fit-led</strong><span>Measure before configuration</span></div>
-      <div><strong>Documented</strong><span>Released specifications over generic claims</span></div>
-    </div>
-
-    <div class="product-accordions">
-      <details><summary>Fit & measurement <span>+</span></summary><div>{{ product.metafields.custom.fit_note | default: 'Measure before ordering. Detailed fit guidance and model-specific recommendations are available in our Fit Lab.' }}</div></details>
-      <details><summary>Materials & care <span>+</span></summary><div>{{ product.metafields.custom.care | default: 'Material and care instructions vary by configuration and are supplied with each product.' }}</div></details>
-      <details><summary>Manufacturing & lead time <span>+</span></summary><div>{{ product.metafields.custom.lead_time | default: 'Lead time is shown at checkout and may vary for custom configurations.' }}</div></details>
-      <details><summary>Discreet delivery <span>+</span></summary><div>Fulfillment is designed with privacy in mind. Carrier, customs and destination requirements may require accurate shipment information. See the current shipping policy before ordering.</div></details>
-    </div>
-  </aside>
-</section>
-<div class="vf-mobile-atc"><span>{{ product.selected_or_first_available_variant.price | money_with_currency }}</span><button class="btn" type="button" data-mobile-atc {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>{% if product.selected_or_first_available_variant.available %}Add to bag →{% else %}Unavailable{% endif %}</button></div>
+  <script type="application/json" data-vf-variants>[{%- for v in product.variants -%}{"id":{{ v.id | json }},"available":{{ v.available | json }},"options":{{ v.options | json }},"price":{{ v.price | json }},"priceFormatted":{{ v.price | money | json }},"compareAtPrice":{{ v.compare_at_price | default: 0 | json }},"compareAtPriceFormatted":{{ v.compare_at_price | money | json }},"featuredMediaId":{{ v.featured_media.id | default: 0 | json }}}{% unless forloop.last %},{% endunless %}{%- endfor -%}]</script>
+</div>
+<div class="sbar" data-vf-sbar><div class="m"><b style="display:block;text-transform:uppercase">{{ product.title }}</b><span class="sm" data-vf-price>{{ current.price | money }}</span></div><button class="btn" type="button" data-vf-add data-vf-add-proxy data-short="1"{% unless current.available %} disabled{% endunless %}><span data-vf-add-label>Add to bag</span></button></div>
+{% schema %}
+{"name":"Product","settings":[
+{"type":"text","id":"ticks","label":"Assurances (comma separated)","default":"Lifetime Lock Warranty, Plain unbranded shipping, Modular: replace any part later"},
+{"type":"url","id":"fit_link","label":"Find your fit link","default":"/pages/fit-lab"},
+{"type":"textarea","id":"fit_text","label":"Fit text (if no fit_note metafield)","default":"Choose your base from your base circumference, or use Find your fit for a recommendation. If you are between two bases, choose the larger. Remove immediately if you feel numbness, coldness, discolouration or pain. Fit guidance is a starting point, not medical advice."},
+{"type":"textarea","id":"care_text","label":"Care text (if no care metafield)","default":"Wash with warm water and mild, unscented soap after every wear, then air dry completely. Avoid boiling, dishwashers and alcohol-based cleaners."},
+{"type":"textarea","id":"shipping_text","label":"Shipping text","default":"Ships in plain, unbranded packaging with a neutral name on your statement."},
+{"type":"textarea","id":"warranty_text","label":"Warranty text","default":"The locking mechanism is covered for life. Claims are handled part by part, so we replace the part, not the product."}
+]}
+{% endschema %}

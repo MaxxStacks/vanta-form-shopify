@@ -1,2 +1,7 @@
-<section class="vf-page-hero"><div class="page-width"><span class="eyebrow">VANTA FORM / {{ page.title }}</span><h1 class="vf-editorial">{{ page.title }}</h1></div></section><section class="vf-page-content"><div class="page-width"><div class="vf-prose">{{ page.content }}</div></div></section>
-{% schema %}{"name":"Main page","settings":[]}{% endschema %}
+{% render 'breadcrumbs' %}
+<div class="wrap info">
+  <p class="k pop">{{ shop.name }}</p>
+  <h1 class="cap h1" style="margin-top:14px">{{ page.title }}</h1>
+  <div class="prose" style="margin-top:40px">{{ page.content }}</div>
+</div>
+{% schema %}{"name":"Page","settings":[]}{% endschema %}

@@ -1,13 +1,11 @@
 {% if product %}
-<section class="section">
-<div class="page-width faq">
-  <div><span class="eyebrow">{{ section.settings.eyebrow }}</span><h2 class="h2">{{ section.settings.heading }}</h2></div>
-  <div class="faq__items">
+<section class="wrap faq">
+  <div><p class="k pop">{{ section.settings.eyebrow }}</p><h2 class="cap h2" style="margin-top:12px">{{ section.settings.heading }}</h2></div>
+  <div class="acc">
   {% for block in section.blocks %}
-    <details {{ block.shopify_attributes }}><summary>{{ block.settings.question }}<span>+</span></summary><div class="faq__answer">{{ block.settings.answer }}</div></details>
+    <details {{ block.shopify_attributes }}><summary>{{ block.settings.question }}</summary><div class="pn">{{ block.settings.answer }}</div></details>
   {% endfor %}
   </div>
-</div>
 </section>
 {% endif %}
 {% schema %}

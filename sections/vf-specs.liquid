@@ -1,0 +1,14 @@
+{%- if product -%}
+<section class="wrap" style="padding-block:48px 72px">
+  <h2 class="cap h3" style="margin-bottom:24px">{{ section.settings.heading | escape }}</h2>
+  <div class="box">
+    <div><b>Architecture</b><span class="sm">{{ product.metafields.custom.architecture | default: 'Published at release' }}</span></div>
+    <div><b>Profile</b><span class="sm">{{ product.metafields.custom.profile | default: 'Published at release' }}</span></div>
+    <div><b>Material</b><span class="sm">{{ product.metafields.custom.material | default: 'Published when validated' }}</span></div>
+    <div><b>In the box</b><span class="sm">{{ section.settings.in_box | escape }}</span></div>
+  </div>
+</section>
+{%- endif -%}
+{% schema %}
+{"name":"Product specifications","settings":[{"type":"text","id":"heading","label":"Heading","default":"Specifications"},{"type":"text","id":"in_box","label":"In the box","default":"Your form, base ring, lock, care pouch and serial card"}],"presets":[{"name":"Product specifications"}]}
+{% endschema %}

@@ -1,1 +1,306 @@
-{"sections":{"hero":{"type":"hero-editorial","settings":{"eyebrow":"Precision · Expression · Freedom","heading":"YOUR BODY.\nYOUR FORM.","copy":"Precision-manufactured intimate wear created for control, discretion, transformation and expression.","primary_label":"Find yours","secondary_label":"Build yours"}},"trust":{"type":"trust-strip","blocks":{"a":{"type":"item","settings":{"heading":"Premium materials","copy":"Quality polymers selected by released configuration"}},"b":{"type":"item","settings":{"heading":"Lifetime Lock Warranty","copy":"Lifetime coverage for the locking mechanism"}},"c":{"type":"item","settings":{"heading":"Discreet shipping","copy":"Privacy considered through fulfillment"}},"d":{"type":"item","settings":{"heading":"20 years experience","copy":"Manufacturing experience behind our approach"}}},"block_order":["a","b","c","d"],"settings":{}},"manifesto":{"type":"brand-manifesto","settings":{}},"paths":{"type":"pathways","blocks":{"first":{"type":"path","settings":{"heading":"My first cage","copy":"Guidance, sizing and essentials for a confident start."}},"daily":{"type":"path","settings":{"heading":"Everyday & discreet","copy":"Low-profile directions for daily wear."}},"fem":{"type":"path","settings":{"heading":"Feminine & sculptural","copy":"Expression-led forms with a softer silhouette."}},"control":{"type":"path","settings":{"heading":"Submission & control","copy":"Explore products through consensual power dynamics."}},"custom":{"type":"path","settings":{"heading":"Custom","copy":"Build a configuration around your measurements and preferences."}},"couples":{"type":"path","settings":{"heading":"Couples & keyholders","copy":"Explore together, with communication and choice at the center."}}},"block_order":["first","daily","fem","control","custom","couples"],"settings":{"eyebrow":"Find your form","heading":"What are you looking for?"}},"collections":{"type":"featured-collections","blocks":{"core":{"type":"collection","settings":{"kicker":"Balanced","heading":"CORE","copy":"The fit changes everything.","tone":"graphite","collection":"core"}},"stealth":{"type":"collection","settings":{"kicker":"Discreet","heading":"STEALTH","copy":"Disappear beneath everything.","tone":"graphite","collection":"stealth"}},"petal":{"type":"collection","settings":{"kicker":"Sculptural","heading":"PETAL","copy":"Soften the silhouette.","tone":"blush","collection":"petal"}},"fufu":{"type":"collection","settings":{"kicker":"Expression","heading":"FUFU","copy":"Change the shape. Change the feeling.","tone":"pearl","collection":"fufu"}},"signature":{"type":"collection","settings":{"kicker":"Limited","heading":"SIGNATURE","copy":"Where engineering becomes expression.","tone":"plum","collection":"signature"}}},"block_order":["core","stealth","petal","fufu","signature"],"settings":{"eyebrow":"Our signature collections","heading":"Choose your expression."}},"engineering":{"type":"engineering","blocks":{"one":{"type":"point","settings":{"heading":"CAD-developed architecture","text":"Orthographic studies, controlled geometry and design revisions are part of the product development language."}},"two":{"type":"point","settings":{"heading":"Premium polymer materials","text":"Material specifications are published by released configuration rather than hidden behind generic quality claims."}},"three":{"type":"point","settings":{"heading":"High-quality fabrication","text":"Digital production keeps geometry, configuration and manufacturing connected to the design."}},"four":{"type":"point","settings":{"heading":"Lifetime Lock Warranty","text":"The locking mechanism is backed for life under the published warranty terms."}}},"block_order":["one","two","three","four"],"settings":{"eyebrow":"In-house engineering","heading":"Engineered here. Manufactured with intent.","copy":"VANTA FORM develops original product architecture around premium polymer fabrication, controlled geometry and fit-led design—backed by 20 years of manufacturing experience."}},"configurator":{"type":"configurator-cta","settings":{"eyebrow":"VANTA FORM Fit Lab","heading":"NOT SMALL.\nNOT MEDIUM.\nYOURS.","copy":"A fit experience designed around your body, your preferred profile and the way you intend to wear.","label":"Start your Fit Lab"}},"journal":{"type":"journal-preview","settings":{}}},"order":["hero","trust","manifesto","paths","collections","engineering","configurator","journal"]}
+{
+ "sections": {
+  "hero": {
+   "type": "vf-hero",
+   "settings": {}
+  },
+  "proof": {
+   "type": "vf-proof",
+   "blocks": {
+    "a": {
+     "type": "item",
+     "settings": {
+      "heading": "Made to measure",
+      "text": "Not small. Not medium. Yours."
+     }
+    },
+    "b": {
+     "type": "item",
+     "settings": {
+      "heading": "Lifetime Lock Warranty",
+      "text": "Every lock, covered for life."
+     }
+    },
+    "c": {
+     "type": "item",
+     "settings": {
+      "heading": "20 years manufacturing",
+      "text": "We build. We don't rebrand."
+     }
+    },
+    "d": {
+     "type": "item",
+     "settings": {
+      "heading": "Discreet by default",
+      "text": "Plain box. Neutral billing."
+     }
+    }
+   },
+   "block_order": [
+    "a",
+    "b",
+    "c",
+    "d"
+   ],
+   "settings": {}
+  },
+  "band_sub": {
+   "type": "vf-band",
+   "settings": {
+    "first": true,
+    "style": "light",
+    "reverse": false,
+    "caption": "Male model kneeling on concrete, hands clasped behind his back, bare back to camera. Grey studio, hard top light.",
+    "eyebrow": "For the submissive",
+    "heading": "Surrender,\nengineered.",
+    "text": "<p>Control only works when you forget the hardware. CORE and STEALTH are built on your measurements so the only thing you feel is the lock.</p>",
+    "tags": "Submissive, Denial, Everyday wear",
+    "button_label": "Explore Core",
+    "button_link": "/collections/core",
+    "link_label": "Stealth, for discretion",
+    "link_url": "/collections/stealth"
+   }
+  },
+  "band_fem": {
+   "type": "vf-band",
+   "settings": {
+    "style": "dark",
+    "reverse": true,
+    "caption": "Model in black lace and heels, seated at a vanity, face out of frame, warm window light, mirror reflection.",
+    "eyebrow": "For the feminine",
+    "heading": "Soften the\nsilhouette.",
+    "text": "<p>A flat, smooth front under lingerie, swimwear and fitted dresses. FUFU and PETAL are made for sissies, trans women, the gender-fluid, and anyone who wants their body to match how they see themselves.</p>",
+    "tags": "Trans, Sissy, Gender-fluid, Femme",
+    "pink_tags": true,
+    "button_label": "Explore Fufu",
+    "button_link": "/collections/fufu",
+    "link_label": "Petal, sculpted",
+    "link_url": "/collections/petal"
+   }
+  },
+  "band_key": {
+   "type": "vf-band",
+   "settings": {
+    "style": "light",
+    "reverse": false,
+    "caption": "Close crop. A woman's hand in a black sleeve holding a small key on a fine chain. Neutral background, shallow depth.",
+    "eyebrow": "For keyholders & couples",
+    "heading": "Give up the key.\nNot your identity.",
+    "text": "<p>Numbered seals let a keyholder verify from anywhere. SIGNATURE pieces are made in small numbered runs, the kind of thing you give, not just buy.</p>",
+    "tags": "Keyholders, Couples, Gifts",
+    "button_label": "Explore Signature",
+    "button_link": "/collections/signature",
+    "link_label": "Keyholding guide",
+    "link_url": "/pages/couples-keyholders"
+   }
+  },
+  "statement": {
+   "type": "vf-statement",
+   "blocks": {
+    "a": {
+     "type": "num",
+     "settings": {
+      "value": "20",
+      "label": "Years of manufacturing experience"
+     }
+    },
+    "b": {
+     "type": "num",
+     "settings": {
+      "value": "3",
+      "label": "Modular parts. Replace any one."
+     }
+    },
+    "c": {
+     "type": "num",
+     "settings": {
+      "value": "∞",
+      "label": "Lifetime Lock Warranty"
+     }
+    }
+   },
+   "block_order": [
+    "a",
+    "b",
+    "c"
+   ],
+   "settings": {
+    "text": "<p>Every VANTA FORM piece is designed, engineered and manufactured by our own team. That's why we can size it to you, replace a single part, and stand behind every lock for life.</p>",
+    "link_url": "/pages/manufacturing"
+   }
+  },
+  "collections": {
+   "type": "vf-collection-grid",
+   "blocks": {
+    "core": {
+     "type": "collection",
+     "settings": {
+      "collection": "core",
+      "title": "Core",
+      "text": "The everyday chastity form. Balanced, ventilated, built on your base.",
+      "caption": "Packshot. CORE in matte black on seamless white, three-quarter view, soft shadow."
+     }
+    },
+    "stealth": {
+     "type": "collection",
+     "settings": {
+      "collection": "stealth",
+      "title": "Stealth",
+      "text": "Our lowest profile. Disappears under everything.",
+      "caption": "Packshot. STEALTH in smoke grey, side view on white."
+     }
+    },
+    "fufu": {
+     "type": "collection",
+     "settings": {
+      "collection": "fufu",
+      "title": "Fufu",
+      "text": "Flat and smooth. Made for feminine presentation.",
+      "caption": "Packshot. FUFU in rose, front view on white, lace fabric edge in frame."
+     }
+    },
+    "petal": {
+     "type": "collection",
+     "settings": {
+      "collection": "petal",
+      "title": "Petal",
+      "text": "Sculpted, organic, soft from every angle.",
+      "caption": "Packshot. PETAL in pearl, three-quarter view, single dried flower beside it."
+     }
+    },
+    "arc": {
+     "type": "collection",
+     "settings": {
+      "collection": "arc",
+      "title": "Arc",
+      "text": "Drawn on a curve to follow your natural line.",
+      "caption": "Packshot. ARC in black, side view on white."
+     }
+    },
+    "signature": {
+     "type": "collection",
+     "settings": {
+      "collection": "signature",
+      "title": "Signature",
+      "text": "Numbered pieces in small, serialised runs.",
+      "caption": "Packshot. SIGNATURE in its presentation case with key, overhead."
+     }
+    }
+   },
+   "block_order": [
+    "core",
+    "stealth",
+    "fufu",
+    "petal",
+    "arc",
+    "signature"
+   ],
+   "settings": {
+    "heading": "The collection",
+    "link_label": "View all forms",
+    "link_url": "/collections/all"
+   }
+  },
+  "fit": {
+   "type": "vf-fit-band",
+   "blocks": {
+    "a": {
+     "type": "step",
+     "settings": {
+      "title": "What you want",
+      "text": "Discreet, feminine, controlled, everyday"
+     }
+    },
+    "b": {
+     "type": "step",
+     "settings": {
+      "title": "Your experience",
+      "text": "First time, returning, experienced"
+     }
+    },
+    "c": {
+     "type": "step",
+     "settings": {
+      "title": "One measurement",
+      "text": "Base circumference, in millimetres"
+     }
+    },
+    "d": {
+     "type": "step",
+     "settings": {
+      "title": "Your form",
+      "text": "Matched, configured, made for you"
+     }
+    }
+   },
+   "block_order": [
+    "a",
+    "b",
+    "c",
+    "d"
+   ],
+   "settings": {
+    "button_link": "/pages/fit-lab"
+   }
+  },
+  "journal": {
+   "type": "vf-journal",
+   "blocks": {
+    "a": {
+     "type": "article",
+     "settings": {
+      "caption": "Soft tape measure coiled on white linen, overhead, natural light.",
+      "kicker": "Fit · 6 min",
+      "title": "Your first cage: how to measure, choose and wear it",
+      "text": "Fit decides everything. One measurement, taken properly, is the difference between forgetting it's there and taking it off after an hour.",
+      "link": "/pages/first-cage"
+     }
+    },
+    "b": {
+     "type": "article",
+     "settings": {
+      "caption": "Two hands intertwined on dark bedsheets, one wrist with a fine chain. Low warm light.",
+      "kicker": "Relationships · 8 min",
+      "title": "Keyholding: setting the rules before the lock closes",
+      "text": "How long, how often you check in, and how either of you ends it. Consent is the part of control that makes it work.",
+      "link": "/pages/couples-keyholders"
+     }
+    },
+    "c": {
+     "type": "article",
+     "settings": {
+      "caption": "Model's legs in sheer stockings and heels, mid-step, monochrome, editorial.",
+      "kicker": "Expression · 7 min",
+      "title": "Flat, smooth, yours: a guide to feminine presentation",
+      "text": "What a flat profile changes under lingerie and fitted clothes, and how to choose between FUFU and PETAL.",
+      "link": "/collections/fufu"
+     }
+    }
+   },
+   "block_order": [
+    "a",
+    "b",
+    "c"
+   ],
+   "settings": {
+    "blog": "journal"
+   }
+  },
+  "newsletter": {
+   "type": "vf-newsletter",
+   "settings": {}
+  }
+ },
+ "order": [
+  "hero",
+  "proof",
+  "band_sub",
+  "band_fem",
+  "band_key",
+  "statement",
+  "collections",
+  "fit",
+  "journal",
+  "newsletter"
+ ]
+}

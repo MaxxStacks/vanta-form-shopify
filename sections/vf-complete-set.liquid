@@ -1,0 +1,20 @@
+{%- assign list = section.settings.products -%}
+{%- if list == blank -%}{%- assign list = settings.cart_upsells -%}{%- endif -%}
+{%- if list.size > 0 -%}
+<section class="wrap" style="padding-bottom:96px">
+  <h2 class="cap h3" style="margin-bottom:28px">{{ section.settings.heading | escape }}</h2>
+  <div class="accs">
+  {%- for p in list -%}
+    <div class="ax">
+      <a href="{{ p.url }}">{% render 'vf-slot', image: p.featured_image, caption: 'Accessory packshot on white.', alt: p.title, sizes: '(min-width: 900px) 25vw, 50vw' %}</a>
+      <div class="sum"><b style="text-transform:uppercase;font-weight:800">{{ p.title }}</b><span>{{ p.price | money }}</span></div>
+      {%- if p.metafields.custom.short_description != blank -%}<p class="sm">{{ p.metafields.custom.short_description }}</p>{%- endif -%}
+      {%- if p.available -%}<button class="btn o" type="button" style="min-height:44px" data-vf-add-variant="{{ p.selected_or_first_available_variant.id }}">Add</button>{%- else -%}<span class="sm">Sold out</span>{%- endif -%}
+    </div>
+  {%- endfor -%}
+  </div>
+</section>
+{%- endif -%}
+{% schema %}
+{"name":"Complete the set","settings":[{"type":"text","id":"heading","label":"Heading","default":"Complete the set"},{"type":"product_list","id":"products","label":"Products (defaults to the bag's Often added list)","limit":4}],"presets":[{"name":"Complete the set"}]}
+{% endschema %}
